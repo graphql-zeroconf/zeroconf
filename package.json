@@ -1,0 +1,49 @@
+{
+  "name": "zeroconf",
+  "version": "0.1.0",
+  "description": "graphql zeroconf",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && babel src --out-dir dist",
+    "watch": "rm -rf dist && babel src --watch --out-dir dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeongjuwon/zeroconf"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "acl": "^0.4.11",
+    "apollo-upload-server": "^7.1.0",
+    "app-root-path": "^2.1.0",
+    "camelcase": "^5.0.0",
+    "dataloader": "^1.4.0",
+    "fs-readdir-recursive": "^1.1.0",
+    "graphql": "^14.1.1",
+    "graphql-compose": "^5.11.0",
+    "graphql-subscriptions": "^1.0.0",
+    "graphql-type-json": "^0.2.1",
+    "lodash": "^4.17.11",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.4",
+    "pluralize": "^7.0.0",
+    "sequelize": "^4.42.0",
+    "sequelize-auto": "^0.4.29",
+    "ucfirst": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "@babel/preset-es2016": "^7.0.0-beta.53",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-graphql": "^3.0.1",
+    "eslint-plugin-import": "^2.14.0"
+  }
+}
