@@ -15,6 +15,7 @@ import {
 
 import { RowSubscriber, ListSubscriber } from '../classes/subscribers';
 import { addFields, addResolver } from './composer';
+import dataLoader from './dataLoader';
 
 const { Op } = Sequelize;
 
@@ -71,9 +72,9 @@ const getRowQueryFields = (zeroConf, type, fieldName, model) => {
   });
 
   return {
-    type: TypeName,
+    type: `${TypeName}`,
     args: {
-      where: `${TypeName}WhereInput`,
+      where: `${TypeName}WhereInput!`,
     },
   };
 };
@@ -92,7 +93,7 @@ const getCountQueryFields = (zeroConf, type, TypeNames, model) => {
   });
 
   return {
-    type: 'Int',
+    type: 'Int!',
     args: {
       where: 'JSON',
     },
@@ -120,7 +121,7 @@ const getMutationFields = (zeroConf) => {
     fields[`create${TypeName}`] = {
       type: TypeName,
       args: {
-        input: `${TypeName}CreationInput`,
+        input: `${TypeName}CreationInput!`,
       },
     };
 
@@ -136,8 +137,8 @@ const getMutationFields = (zeroConf) => {
     fields[`update${TypeName}`] = {
       type: TypeName,
       args: {
-        where: `${TypeName}WhereInput`,
-        input: `${TypeName}UpdateInput`,
+        where: `${TypeName}WhereInput!`,
+        input: `${TypeName}UpdateInput!`,
       },
     };
 
@@ -153,7 +154,7 @@ const getMutationFields = (zeroConf) => {
     fields[`delete${TypeName}`] = {
       type: 'Int',
       args: {
-        where: `${TypeName}WhereInput`,
+        where: `${TypeName}WhereInput!`,
       },
     };
   }
@@ -185,31 +186,46 @@ const generateChildren = (zeroConf) => {
       } = attr;
       const targetModel = models[targetModelName];
 
-      const dataLoader = new DataLoader(async (ids) => {
-        const result = await targetModel.findAll({
-          where: {
-            [targetKey]: {
-              [Op.in]: ids,
-            },
-          },
-        });
+      const childPath = `${sourceModel.convertedName.TypeName}.${
+        targetModel.convertedName.typeName
+      }`;
+      addResolver(childPath, {
+        resolve: async (parent, args, context, info) => {
+          const loader = dataLoader.query(context, childPath, async (ids) => {
+            const result = await targetModel.findAll({
+              where: {
+                [targetKey]: {
+                  [Op.in]: ids,
+                },
+              },
+            });
 
-        const zipped = _.zipObject(ids, _.times(ids.length, _.constant([])));
-        const grouped = _.groupBy(result, targetKey);
-        const data = Object.values({
-          ...zipped,
-          ...grouped,
-        });
+            return dataLoader.groupMapping(result, ids, targetKey, true);
+          });
 
-        return data;
+          return loader.load(parent[sourceKey]);
+        },
       });
 
-      addResolver(`${sourceModel.convertedName.TypeName}.${targetModel.convertedName.typeName}`, {
-        resolve: (parent, args, context, info) => dataLoader.load(parent[sourceKey]),
-      });
+      const childrenPath = `${sourceModel.convertedName.TypeName}.${
+        targetModel.convertedName.typeNames
+      }`;
+      addResolver(childrenPath, {
+        resolve: async (parent, args, context, info) => {
+          const loader = dataLoader.query(context, childrenPath, async (ids) => {
+            const result = await targetModel.findAll({
+              where: {
+                [targetKey]: {
+                  [Op.in]: ids,
+                },
+              },
+            });
 
-      addResolver(`${sourceModel.convertedName.TypeName}.${targetModel.convertedName.typeNames}`, {
-        resolve: (parent, args, context, info) => dataLoader.load(parent[sourceKey]),
+            return dataLoader.groupMapping(result, ids, targetKey, false);
+          });
+
+          return loader.load(parent[sourceKey]);
+        },
       });
 
       addFields(sourceModel.convertedName.TypeName, {
@@ -256,17 +272,19 @@ const generateQueryExtends = (zeroConf) => {
           ? await beforeHook(parent, resolverArgs, context, info)
           : resolverArgs;
 
-        await resolver(parent, newArgs, context, info);
+        const result = await resolver(parent, newArgs, context, info);
 
         if (afterHook) {
           await afterHook(parent, newArgs, context, info);
         }
+
+        return result;
       },
     });
 
     addFields(type, {
       [field]: {
-        ...(args || null),
+        args,
         type: returnType,
       },
     });
