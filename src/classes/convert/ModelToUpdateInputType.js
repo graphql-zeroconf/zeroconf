@@ -30,7 +30,7 @@ class ModelToUpdateInputType {
       }
 
       if (!attr.allowNull) {
-        type = `${type}!`;
+        type = `${type}`;
       }
 
       fields[attr.fieldName] = {
