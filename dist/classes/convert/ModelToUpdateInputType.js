@@ -36,7 +36,7 @@ var ModelToUpdateInputType = function ModelToUpdateInputType(model) {
     }
 
     if (!attr.allowNull) {
-      type = "".concat(type, "!");
+      type = "".concat(type);
     }
 
     fields[attr.fieldName] = {
