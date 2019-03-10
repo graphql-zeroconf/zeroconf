@@ -75,8 +75,9 @@ query {
   If you have a table which called **user_lesson**, zeroconf will generate these things.
 
   - type **UserLesson**
-  - query { **userLesson**, **userLessons**, **numUserLesson** }
-  - mutation { **createUserLesson**, **updateUserLessons**, **deleteUserLesson** }
+  - Query { **userLesson**, **userLessons**, **numUserLesson** }
+  - Subscription { **userLesson**, **userLessons**, **numUserLesson** }
+  - Mutation { **createUserLesson**, **updateUserLessons**, **deleteUserLesson** }
 
 #### Query generation support:
 
