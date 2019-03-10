@@ -192,11 +192,17 @@ const generateChildren = (zeroConf) => {
       addResolver(childPath, {
         resolve: async (parent, args, context, info) => {
           const loader = dataLoader.query(context, childPath, async (ids) => {
+            targetModel.hasOne(sourceModel, { foreignKey: sourceKey, targetKey });
+
             const result = await targetModel.findAll({
-              where: {
-                [targetKey]: {
-                  [Op.in]: ids,
+              include: [
+                {
+                  attributes: [],
+                  model: sourceModel,
                 },
+              ],
+              where: {
+                [targetKey]: parent[sourceKey],
               },
             });
 
@@ -213,11 +219,17 @@ const generateChildren = (zeroConf) => {
       addResolver(childrenPath, {
         resolve: async (parent, args, context, info) => {
           const loader = dataLoader.query(context, childrenPath, async (ids) => {
+            targetModel.hasMany(sourceModel, { foreignKey: sourceKey, targetKey });
+
             const result = await targetModel.findAll({
-              where: {
-                [targetKey]: {
-                  [Op.in]: ids,
+              include: [
+                {
+                  attributes: [],
+                  model: sourceModel,
                 },
+              ],
+              where: {
+                [targetKey]: parent[sourceKey],
               },
             });
 
@@ -233,7 +245,7 @@ const generateChildren = (zeroConf) => {
           type: targetModel.convertedName.TypeName,
         },
         [targetModel.convertedName.typeNames]: {
-          type: [targetModel.convertedName.TypeName],
+          type: `[${targetModel.convertedName.TypeName}]`,
         },
       });
     });

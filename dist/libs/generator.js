@@ -211,16 +211,24 @@ var generateChildren = function generateChildren(zeroConf) {
                           while (1) {
                             switch (_context.prev = _context.next) {
                               case 0:
-                                _context.next = 2;
+                                targetModel.hasOne(sourceModel, {
+                                  foreignKey: sourceKey,
+                                  targetKey: targetKey
+                                });
+                                _context.next = 3;
                                 return targetModel.findAll({
-                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op.in, ids))
+                                  include: [{
+                                    attributes: [],
+                                    model: sourceModel
+                                  }],
+                                  where: _defineProperty({}, targetKey, parent[sourceKey])
                                 });
 
-                              case 2:
+                              case 3:
                                 result = _context.sent;
                                 return _context.abrupt("return", _dataLoader.default.groupMapping(result, ids, targetKey, true));
 
-                              case 4:
+                              case 5:
                               case "end":
                                 return _context.stop();
                             }
@@ -271,16 +279,24 @@ var generateChildren = function generateChildren(zeroConf) {
                           while (1) {
                             switch (_context3.prev = _context3.next) {
                               case 0:
-                                _context3.next = 2;
+                                targetModel.hasMany(sourceModel, {
+                                  foreignKey: sourceKey,
+                                  targetKey: targetKey
+                                });
+                                _context3.next = 3;
                                 return targetModel.findAll({
-                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op.in, ids))
+                                  include: [{
+                                    attributes: [],
+                                    model: sourceModel
+                                  }],
+                                  where: _defineProperty({}, targetKey, parent[sourceKey])
                                 });
 
-                              case 2:
+                              case 3:
                                 result = _context3.sent;
                                 return _context3.abrupt("return", _dataLoader.default.groupMapping(result, ids, targetKey, false));
 
-                              case 4:
+                              case 5:
                               case "end":
                                 return _context3.stop();
                             }
@@ -312,7 +328,7 @@ var generateChildren = function generateChildren(zeroConf) {
       (0, _composer.addFields)(sourceModel.convertedName.TypeName, (_addFields = {}, _defineProperty(_addFields, targetModel.convertedName.typeName, {
         type: targetModel.convertedName.TypeName
       }), _defineProperty(_addFields, targetModel.convertedName.typeNames, {
-        type: [targetModel.convertedName.TypeName]
+        type: "[".concat(targetModel.convertedName.TypeName, "]")
       }), _addFields));
     });
   };

@@ -3,7 +3,7 @@ const DataLoader = require('dataloader');
 
 const groupMapping = (result, ids, groupKey, isOne) => {
   const grouped = _.groupBy(result, groupKey);
-  const data = ids.map(id => (isOne ? _.get(grouped[id], '0', null) : grouped[id]));
+  const data = ids.map(id => (isOne ? _.get(grouped, `${id}.[0]`, null) : _.get(grouped, `${id}`, [])));
   return data;
 };
 

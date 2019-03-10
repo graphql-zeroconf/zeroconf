@@ -12,7 +12,7 @@ var groupMapping = function groupMapping(result, ids, groupKey, isOne) {
   var grouped = _.groupBy(result, groupKey);
 
   var data = ids.map(function (id) {
-    return isOne ? _.get(grouped[id], '0', null) : grouped[id];
+    return isOne ? _.get(grouped, "".concat(id, ".[0]"), null) : _.get(grouped, "".concat(id), []);
   });
   return data;
 };
