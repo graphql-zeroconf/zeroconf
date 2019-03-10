@@ -195,14 +195,10 @@ const generateChildren = (zeroConf) => {
             targetModel.hasOne(sourceModel, { foreignKey: sourceKey, targetKey });
 
             const result = await targetModel.findAll({
-              include: [
-                {
-                  attributes: [],
-                  model: sourceModel,
-                },
-              ],
               where: {
-                [targetKey]: parent[sourceKey],
+                [targetKey]: {
+                  [Op.in]: ids,
+                },
               },
             });
 
@@ -220,16 +216,11 @@ const generateChildren = (zeroConf) => {
         resolve: async (parent, args, context, info) => {
           const loader = dataLoader.query(context, childrenPath, async (ids) => {
             targetModel.hasMany(sourceModel, { foreignKey: sourceKey, targetKey });
-
             const result = await targetModel.findAll({
-              include: [
-                {
-                  attributes: [],
-                  model: sourceModel,
-                },
-              ],
               where: {
-                [targetKey]: parent[sourceKey],
+                [targetKey]: {
+                  [Op.in]: ids,
+                },
               },
             });
 

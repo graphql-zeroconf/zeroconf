@@ -217,11 +217,7 @@ var generateChildren = function generateChildren(zeroConf) {
                                 });
                                 _context.next = 3;
                                 return targetModel.findAll({
-                                  include: [{
-                                    attributes: [],
-                                    model: sourceModel
-                                  }],
-                                  where: _defineProperty({}, targetKey, parent[sourceKey])
+                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op.in, ids))
                                 });
 
                               case 3:
@@ -285,11 +281,7 @@ var generateChildren = function generateChildren(zeroConf) {
                                 });
                                 _context3.next = 3;
                                 return targetModel.findAll({
-                                  include: [{
-                                    attributes: [],
-                                    model: sourceModel
-                                  }],
-                                  where: _defineProperty({}, targetKey, parent[sourceKey])
+                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op.in, ids))
                                 });
 
                               case 3:
