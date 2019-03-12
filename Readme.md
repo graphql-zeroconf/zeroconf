@@ -1,10 +1,10 @@
 ### Zeroconf
 
-The simplest way to start graphql with zero configuration on exist MySQL.
+The simplest way to start graphql with zero configuration on existing database.
 
 Zeroconf supports to generate C.R.U.D API automatically. It has powerful where clauses for query and also has interface which called hook in each C.U.D mutations.
 
-Lets say that we have user table on our mysql database. In this case zeroconf CRUD schema will be generated with its table name.
+Lets say that we have user table on our database. In this case zeroconf CRUD schema will be generated with its table name.
 
 ### Sequelize ORM
 
@@ -180,7 +180,9 @@ git clone https://github.com/jeongjuwon/zeroconf_template.git
 npm install
 ```
 
-Create your .env file
+Create your .env file. Here is the example for each databases. Zeroconf contains sequelize in it so we can use the databases that MySQL, MariaDB, Postgres, SQLite And MSSQL.
+
+MySQL, MariaDB
 
 ```
 .env
@@ -190,6 +192,61 @@ MYSQL_PORT=3306
 MYSQL_DATABASE=db
 MYSQL_USER=user
 MYSQL_PASSWORD=pwd
+```
+
+Postgres
+
+```
+.env
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DATABASE=db
+POSTGRES_USER=user
+POSTGRES_PASSWORD=pwd
+```
+
+SQLite
+
+```
+.env
+SQLITE_HOST=localhost
+SQLITE_DATABASE=main
+SQLITE_USER=
+SQLITE_PASSWORD=
+SQLITE_STORAGE=./sqlite/chinook.db
+```
+
+Other options
+
+As we mentioned before that zeroconf contains node sequelize. You can use other options for sequelize to initialize. After clone the repository zeroconf_template and open the file `.sequelize.cfg.js`. Edit options and add more you needed. If you want to know more options on sequelize, please refer to the link below to set up other options.
+
+Sequlize Doc: [https://sequelize.readthedocs.io/en/1.7.0/docs/usage/](https://sequelize.readthedocs.io/en/1.7.0/docs/usage/)
+
+```
+const path = require('path');
+require('dotenv').config({ debug: process.env.DEBUG });
+
+module.exports = {
+  database: process.env.SQLITE_DATABASE,
+  user: process.env.SQLITE_USER,
+  password: process.env.SQLITE_PASSWORD,
+  option: {
+    storage: process.env.SQLITE_STORAGE,
+    host: process.env.SQLITE_HOST,
+    dialect: 'sqlite',
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+    additional: {
+      timestamps: false,
+      // createdAt: 'cdate',
+      // updatedAt: 'udate',
+    },
+  },
+};
 ```
 
 Generate models
