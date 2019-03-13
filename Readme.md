@@ -176,7 +176,7 @@ query {
 ### Installation
 
 ```
-git clone https://github.com/jeongjuwon/zeroconf_template.git
+git clone https://github.com/graphql-zeroconf/zeroconf_template.git
 npm install
 ```
 
