@@ -80,13 +80,18 @@ var getTypeDefs = function getTypeDefs() {
         name = _ref2[0],
         obj = _ref2[1];
 
-    var type = obj.type,
-        values = obj.values;
-
     var fields = _objectSpread({}, obj.fields, extendFields[name]);
 
-    var objType = type || 'type';
+    if (obj.description) {
+      defs += "\"\"\"\n".concat(obj.description.replace(/\n/g, '\n'), "\n\"\"\"\n");
+    }
+
+    var objType = obj.type || 'type';
     defs += "".concat(objType, " ").concat(name);
+
+    if (obj.implements) {
+      defs += " implements ".concat(obj.implements);
+    }
 
     if (objType === 'scalar') {
       defs += '\n';
@@ -95,7 +100,7 @@ var getTypeDefs = function getTypeDefs() {
 
     if (objType === 'enum') {
       defs += ' {\n';
-      defs += Object.entries(values).map(function (_ref3) {
+      defs += Object.entries(obj.values).map(function (_ref3) {
         var _ref4 = _slicedToArray(_ref3, 1),
             value = _ref4[0];
 
@@ -111,7 +116,8 @@ var getTypeDefs = function getTypeDefs() {
           field = _ref6[0],
           _ref6$ = _ref6[1],
           type = _ref6$.type,
-          args = _ref6$.args;
+          args = _ref6$.args,
+          description = _ref6$.description;
 
       var fieldArgs = '';
 
@@ -123,6 +129,10 @@ var getTypeDefs = function getTypeDefs() {
 
           return "".concat(k, ": ").concat(t);
         }).join(', '), ")");
+      }
+
+      if (description) {
+        defs += "\"\"\"\n".concat(description.replace(/\n/g, '\n'), "\n\"\"\"\n");
       }
 
       defs += " ".concat(field).concat(fieldArgs, ": ").concat(type, "\n");

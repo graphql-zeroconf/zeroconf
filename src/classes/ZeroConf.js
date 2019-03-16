@@ -13,7 +13,6 @@ import {
   createType,
   createInputType,
   createEnumType,
-  createScalarType,
   getTypeDefs,
   getResolvers,
 } from '../libs/composer';

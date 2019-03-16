@@ -44,15 +44,21 @@ export const createScalarType = (name) => {
 export const getTypeDefs = () => {
   let defs = '';
   Object.entries(objects).map(([name, obj]) => {
-    const { type, values } = obj;
-
     const fields = {
       ...obj.fields,
       ...extendFields[name],
     };
 
-    const objType = type || 'type';
+    if (obj.description) {
+      defs += `"""\n${obj.description.replace(/\n/g, '\n')}\n"""\n`;
+    }
+
+    const objType = obj.type || 'type';
     defs += `${objType} ${name}`;
+
+    if (obj.implements) {
+      defs += ` implements ${obj.implements}`;
+    }
 
     if (objType === 'scalar') {
       defs += '\n';
@@ -61,7 +67,7 @@ export const getTypeDefs = () => {
 
     if (objType === 'enum') {
       defs += ' {\n';
-      defs += Object.entries(values)
+      defs += Object.entries(obj.values)
         .map(([value]) => ` ${value}`)
         .join('\n');
       defs += '\n}\n';
@@ -69,13 +75,17 @@ export const getTypeDefs = () => {
     }
 
     defs += ' {\n';
-    Object.entries(fields).map(([field, { type, args }]) => {
+    Object.entries(fields).map(([field, { type, args, description }]) => {
       let fieldArgs = '';
 
       if (!_.isEmpty(args)) {
         fieldArgs = `(${Object.entries(args || {})
           .map(([k, t]) => `${k}: ${t}`)
           .join(', ')})`;
+      }
+
+      if (description) {
+        defs += `"""\n${description.replace(/\n/g, '\n')}\n"""\n`;
       }
 
       defs += ` ${field}${fieldArgs}: ${type}\n`;
