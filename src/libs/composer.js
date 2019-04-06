@@ -79,16 +79,31 @@ export const getTypeDefs = () => {
       let fieldArgs = '';
 
       if (!_.isEmpty(args)) {
-        fieldArgs = `(${Object.entries(args || {})
-          .map(([k, t]) => `${k}: ${t}`)
-          .join(', ')})`;
+        const tmp = [];
+        Object.entries(args || {}).forEach(([k, t]) => {
+          if (typeof t === 'string') {
+            tmp.push(`\t\t${k}: ${t}`);
+          }
+
+          if (typeof t === 'object') {
+            if (t.description) {
+              tmp.push('\t\t"""');
+              tmp.push(`\t\t${t.description}`);
+              tmp.push('\t\t"""');
+            }
+
+            tmp.push(`\t\t${k}: ${t.type}`);
+          }
+        });
+
+        fieldArgs = `(\n${tmp.join('\n ')}\n\t)`;
       }
 
       if (description) {
         defs += `"""\n${description.replace(/\n/g, '\n')}\n"""\n`;
       }
 
-      defs += ` ${field}${fieldArgs}: ${type}\n`;
+      defs += `\t${field}${fieldArgs}: ${type}\n`;
     });
 
     defs += '}\n';

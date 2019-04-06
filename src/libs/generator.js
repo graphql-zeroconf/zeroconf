@@ -1,7 +1,6 @@
 /* eslint-disable no-debugger */
 /* eslint-disable no-loop-func */
 import _ from 'lodash';
-import DataLoader from 'dataloader';
 import Sequelize from 'sequelize';
 
 import {

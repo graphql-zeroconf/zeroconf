@@ -17,6 +17,8 @@ var _DateType = _interopRequireDefault(require("../types/DateType"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -122,20 +124,34 @@ var getTypeDefs = function getTypeDefs() {
       var fieldArgs = '';
 
       if (!_lodash.default.isEmpty(args)) {
-        fieldArgs = "(".concat(Object.entries(args || {}).map(function (_ref7) {
+        var tmp = [];
+        Object.entries(args || {}).forEach(function (_ref7) {
           var _ref8 = _slicedToArray(_ref7, 2),
               k = _ref8[0],
               t = _ref8[1];
 
-          return "".concat(k, ": ").concat(t);
-        }).join(', '), ")");
+          if (typeof t === 'string') {
+            tmp.push("\t\t".concat(k, ": ").concat(t));
+          }
+
+          if (_typeof(t) === 'object') {
+            if (t.description) {
+              tmp.push('\t\t"""');
+              tmp.push("\t\t".concat(t.description));
+              tmp.push('\t\t"""');
+            }
+
+            tmp.push("\t\t".concat(k, ": ").concat(t.type));
+          }
+        });
+        fieldArgs = "(\n".concat(tmp.join('\n '), "\n\t)");
       }
 
       if (description) {
         defs += "\"\"\"\n".concat(description.replace(/\n/g, '\n'), "\n\"\"\"\n");
       }
 
-      defs += " ".concat(field).concat(fieldArgs, ": ").concat(type, "\n");
+      defs += "\t".concat(field).concat(fieldArgs, ": ").concat(type, "\n");
     });
     defs += '}\n';
   });

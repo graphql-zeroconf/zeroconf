@@ -10,11 +10,23 @@ class DateType extends GraphQLScalarType {
         return new Date(value); // value from the client
       },
       serialize(value) {
-        return value.getTime(); // value sent to the client
+        if (value instanceof Date) {
+          return value.getTime();
+        }
+        if (typeof value === 'number') {
+          return Math.trunc(value);
+        }
+        if (typeof value === 'string') {
+          return Date.parse(value);
+        }
+        return null;
       },
       parseLiteral(ast) {
         if (ast.kind === Kind.INT) {
           return new Date(ast.value); // ast value is always in string format
+        }
+        if (ast.kind === Kind.STRING) {
+          return new Date(ast.value);
         }
         return null;
       },

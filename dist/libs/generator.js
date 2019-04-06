@@ -7,8 +7,6 @@ exports.default = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
-var _dataloader = _interopRequireDefault(require("dataloader"));
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
 
 var _resolvers = require("../classes/resolvers");
@@ -222,9 +220,10 @@ var generateChildren = function generateChildren(zeroConf) {
 
                               case 3:
                                 result = _context.sent;
+                                console.log(result);
                                 return _context.abrupt("return", _dataLoader.default.groupMapping(result, ids, targetKey, true));
 
-                              case 5:
+                              case 6:
                               case "end":
                                 return _context.stop();
                             }
