@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
@@ -17,7 +17,7 @@ var _composer = require("./composer");
 
 var _dataLoader = _interopRequireDefault(require("./dataLoader"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -27,7 +27,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var Op = _sequelize.default.Op;
+var Op = _sequelize["default"].Op;
 
 var getListQueryFields = function getListQueryFields(zeroConf, type, fieldName, model) {
   var hooks = zeroConf.hooks,
@@ -106,10 +106,8 @@ var getMutationFields = function getMutationFields(zeroConf) {
       pubSub = zeroConf.pubSub,
       models = zeroConf.models;
 
-  var _arr = Object.values(models);
-
-  for (var _i = 0; _i < _arr.length; _i++) {
-    var model = _arr[_i];
+  for (var _i = 0, _Object$values = Object.values(models); _i < _Object$values.length; _i++) {
+    var model = _Object$values[_i];
     var TypeName = model.convertedName.TypeName;
     (0, _composer.addResolver)("Mutation.create".concat(TypeName), {
       resolve: new _resolvers.CreateResolver({
@@ -168,18 +166,16 @@ var generateMutation = function generateMutation(zeroConf) {
 var generateChildren = function generateChildren(zeroConf) {
   var models = zeroConf.models;
 
-  var _arr2 = Object.values(models);
-
   var _loop = function _loop() {
-    var model = _arr2[_i2];
+    var model = _Object$values2[_i2];
     var sourceModel = model;
     var tableAttributes = sourceModel.tableAttributes;
 
-    var filtered = _lodash.default.filter(tableAttributes, function (attr) {
+    var filtered = _lodash["default"].filter(tableAttributes, function (attr) {
       return attr.references;
     });
 
-    _lodash.default.each(filtered, function (attr) {
+    _lodash["default"].each(filtered, function (attr) {
       var _addFields;
 
       var sourceKey = attr.field,
@@ -198,7 +194,7 @@ var generateChildren = function generateChildren(zeroConf) {
               while (1) {
                 switch (_context2.prev = _context2.next) {
                   case 0:
-                    loader = _dataLoader.default.query(context, childPath,
+                    loader = _dataLoader["default"].query(context, childPath,
                     /*#__PURE__*/
                     function () {
                       var _ref = _asyncToGenerator(
@@ -215,15 +211,14 @@ var generateChildren = function generateChildren(zeroConf) {
                                 });
                                 _context.next = 3;
                                 return targetModel.findAll({
-                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op.in, ids))
+                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op["in"], ids))
                                 });
 
                               case 3:
                                 result = _context.sent;
-                                console.log(result);
-                                return _context.abrupt("return", _dataLoader.default.groupMapping(result, ids, targetKey, true));
+                                return _context.abrupt("return", _dataLoader["default"].groupMapping(result, ids, targetKey, true));
 
-                              case 6:
+                              case 5:
                               case "end":
                                 return _context.stop();
                             }
@@ -263,7 +258,7 @@ var generateChildren = function generateChildren(zeroConf) {
               while (1) {
                 switch (_context4.prev = _context4.next) {
                   case 0:
-                    loader = _dataLoader.default.query(context, childrenPath,
+                    loader = _dataLoader["default"].query(context, childrenPath,
                     /*#__PURE__*/
                     function () {
                       var _ref2 = _asyncToGenerator(
@@ -280,12 +275,12 @@ var generateChildren = function generateChildren(zeroConf) {
                                 });
                                 _context3.next = 3;
                                 return targetModel.findAll({
-                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op.in, ids))
+                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op["in"], ids))
                                 });
 
                               case 3:
                                 result = _context3.sent;
-                                return _context3.abrupt("return", _dataLoader.default.groupMapping(result, ids, targetKey, false));
+                                return _context3.abrupt("return", _dataLoader["default"].groupMapping(result, ids, targetKey, false));
 
                               case 5:
                               case "end":
@@ -324,7 +319,7 @@ var generateChildren = function generateChildren(zeroConf) {
     });
   };
 
-  for (var _i2 = 0; _i2 < _arr2.length; _i2++) {
+  for (var _i2 = 0, _Object$values2 = Object.values(models); _i2 < _Object$values2.length; _i2++) {
     _loop();
   }
 };
@@ -333,10 +328,8 @@ var generateQuery = function generateQuery(zeroConf, type) {
   var fields = {};
   var models = zeroConf.models;
 
-  var _arr3 = Object.values(models);
-
-  for (var _i3 = 0; _i3 < _arr3.length; _i3++) {
-    var model = _arr3[_i3];
+  for (var _i3 = 0, _Object$values3 = Object.values(models); _i3 < _Object$values3.length; _i3++) {
+    var model = _Object$values3[_i3];
     var _model$convertedName = model.convertedName,
         typeName = _model$convertedName.typeName,
         typeNames = _model$convertedName.typeNames,
@@ -375,8 +368,8 @@ var generateQueryExtends = function generateQueryExtends(zeroConf) {
               while (1) {
                 switch (_context5.prev = _context5.next) {
                   case 0:
-                    beforeHook = _lodash.default.get(hooks, "".concat(path, ".before"), null);
-                    afterHook = _lodash.default.get(hooks, "".concat(path, ".after"), null);
+                    beforeHook = _lodash["default"].get(hooks, "".concat(path, ".before"), null);
+                    afterHook = _lodash["default"].get(hooks, "".concat(path, ".after"), null);
 
                     if (!beforeHook) {
                       _context5.next = 8;
@@ -442,8 +435,8 @@ var generateQueryExtends = function generateQueryExtends(zeroConf) {
     _iteratorError = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
       }
     } finally {
       if (_didIteratorError) {
@@ -478,4 +471,4 @@ var generator = function generator(zeroConf) {
 };
 
 var _default = generator;
-exports.default = _default;
+exports["default"] = _default;

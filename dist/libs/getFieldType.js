@@ -3,19 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.getFieldTypeForOrder = exports.getFieldTypeForInput = exports.getFieldTypeForObject = void 0;
+exports["default"] = exports.getFieldTypeForOrder = exports.getFieldTypeForInput = exports.getFieldTypeForObject = void 0;
 
 var _camelcase = _interopRequireDefault(require("camelcase"));
 
 var _isEnumType = _interopRequireDefault(require("./isEnumType"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var getFieldType = function getFieldType(isInput, TypeName, attr) {
   var type = null;
   var isPrimary = attr.primaryKey;
   var dataType = attr.type.constructor.name;
-  var FieldName = (0, _camelcase.default)(attr.fieldName, {
+  var FieldName = (0, _camelcase["default"])(attr.fieldName, {
     pascalCase: true
   });
 
@@ -23,7 +23,7 @@ var getFieldType = function getFieldType(isInput, TypeName, attr) {
     type = 'ID';
   } else if (dataType === 'ENUM') {
     if (isInput) {
-      type = (0, _isEnumType.default)(attr) ? "".concat(TypeName).concat(FieldName) : 'String';
+      type = (0, _isEnumType["default"])(attr) ? "".concat(TypeName).concat(FieldName) : 'String';
     } else {
       type = 'String';
     }
@@ -60,4 +60,4 @@ var getFieldTypeForOrder = function getFieldTypeForOrder(TypeName, attr) {
 
 exports.getFieldTypeForOrder = getFieldTypeForOrder;
 var _default = getFieldType;
-exports.default = _default;
+exports["default"] = _default;

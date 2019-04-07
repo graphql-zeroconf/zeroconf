@@ -1,91 +1,90 @@
-import _ from 'lodash';
-import GraphQLJSON from 'graphql-type-json';
+import _ from "lodash";
+import GraphQLJSON from "graphql-type-json";
 
-import UploadType from '../types/UploadType';
-import OrderType from '../types/OrderType';
-import DateType from '../types/DateType';
+import OrderType from "../types/OrderType";
+import DateType from "../types/DateType";
 
 const objects = {
   Mutation: {
-    name: 'Mutation',
+    name: "Mutation"
   },
   Query: {
-    name: 'Query',
+    name: "Query"
   },
   Subscription: {
-    name: 'Subscription',
-  },
+    name: "Subscription"
+  }
 };
 const extendFields = {};
 const resolvers = {};
 
-export const createType = (obj) => {
+export const createType = obj => {
   const { name } = obj;
   objects[name] = obj;
 };
 
-export const createInputType = (obj) => {
+export const createInputType = obj => {
   const { name } = obj;
   objects[name] = obj;
 };
 
-export const createEnumType = (obj) => {
+export const createEnumType = obj => {
   const { name } = obj;
   objects[name] = obj;
 };
 
-export const createScalarType = (name) => {
+export const createScalarType = name => {
   objects[name] = {
-    type: 'scalar',
-    name,
+    type: "scalar",
+    name
   };
 };
 
 export const getTypeDefs = () => {
-  let defs = '';
+  let defs = "";
   Object.entries(objects).map(([name, obj]) => {
     const fields = {
       ...obj.fields,
-      ...extendFields[name],
+      ...extendFields[name]
     };
 
     if (obj.description) {
-      defs += `"""\n${obj.description.replace(/\n/g, '\n')}\n"""\n`;
+      defs += `"""\n${obj.description.replace(/\n/g, "\n")}\n"""\n`;
     }
 
-    const objType = obj.type || 'type';
+    const objType = obj.type || "type";
     defs += `${objType} ${name}`;
 
     if (obj.implements) {
       defs += ` implements ${obj.implements}`;
     }
 
-    if (objType === 'scalar') {
-      defs += '\n';
+    if (objType === "scalar") {
+      defs += "\n";
       return;
     }
 
-    if (objType === 'enum') {
-      defs += ' {\n';
+    if (objType === "enum") {
+      defs += " {\n";
       defs += Object.entries(obj.values)
         .map(([value]) => ` ${value}`)
-        .join('\n');
-      defs += '\n}\n';
+        .join("\n");
+      defs += "\n}\n";
       return;
     }
 
-    defs += ' {\n';
+    defs += " {\n";
     Object.entries(fields).map(([field, { type, args, description }]) => {
-      let fieldArgs = '';
+      let fieldArgs = "";
 
       if (!_.isEmpty(args)) {
         const tmp = [];
         Object.entries(args || {}).forEach(([k, t]) => {
-          if (typeof t === 'string') {
+          if (typeof t === "string") {
             tmp.push(`\t\t${k}: ${t}`);
           }
 
-          if (typeof t === 'object') {
+          if (typeof t === "object") {
             if (t.description) {
               tmp.push('\t\t"""');
               tmp.push(`\t\t${t.description}`);
@@ -96,17 +95,17 @@ export const getTypeDefs = () => {
           }
         });
 
-        fieldArgs = `(\n${tmp.join('\n ')}\n\t)`;
+        fieldArgs = `(\n${tmp.join("\n ")}\n\t)`;
       }
 
       if (description) {
-        defs += `"""\n${description.replace(/\n/g, '\n')}\n"""\n`;
+        defs += `"""\n${description.replace(/\n/g, "\n")}\n"""\n`;
       }
 
       defs += `\t${field}${fieldArgs}: ${type}\n`;
     });
 
-    defs += '}\n';
+    defs += "}\n";
   });
 
   return defs;
@@ -114,7 +113,7 @@ export const getTypeDefs = () => {
 export const addFields = (objectName, fields) => {
   _.set(extendFields, objectName, {
     ...extendFields[objectName],
-    ...fields,
+    ...fields
   });
 };
 
@@ -124,9 +123,7 @@ export const getResolvers = () => resolvers;
 
 createEnumType(OrderType);
 
-createScalarType('Date');
-addResolver('Date', DateType);
-// createScalarType('Upload');
-addResolver('Upload', UploadType);
-createScalarType('JSON');
-addResolver('JSON', GraphQLJSON);
+createScalarType("Date");
+addResolver("Date", DateType);
+createScalarType("JSON");
+addResolver("JSON", GraphQLJSON);

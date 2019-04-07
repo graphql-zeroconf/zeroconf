@@ -9,13 +9,11 @@ var _lodash = _interopRequireDefault(require("lodash"));
 
 var _graphqlTypeJson = _interopRequireDefault(require("graphql-type-json"));
 
-var _UploadType = _interopRequireDefault(require("../types/UploadType"));
-
 var _OrderType = _interopRequireDefault(require("../types/OrderType"));
 
 var _DateType = _interopRequireDefault(require("../types/DateType"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -33,13 +31,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var objects = {
   Mutation: {
-    name: 'Mutation'
+    name: "Mutation"
   },
   Query: {
-    name: 'Query'
+    name: "Query"
   },
   Subscription: {
-    name: 'Subscription'
+    name: "Subscription"
   }
 };
 var extendFields = {};
@@ -68,7 +66,7 @@ exports.createEnumType = createEnumType;
 
 var createScalarType = function createScalarType(name) {
   objects[name] = {
-    type: 'scalar',
+    type: "scalar",
     name: name
   };
 };
@@ -76,7 +74,7 @@ var createScalarType = function createScalarType(name) {
 exports.createScalarType = createScalarType;
 
 var getTypeDefs = function getTypeDefs() {
-  var defs = '';
+  var defs = "";
   Object.entries(objects).map(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
         name = _ref2[0],
@@ -85,34 +83,34 @@ var getTypeDefs = function getTypeDefs() {
     var fields = _objectSpread({}, obj.fields, extendFields[name]);
 
     if (obj.description) {
-      defs += "\"\"\"\n".concat(obj.description.replace(/\n/g, '\n'), "\n\"\"\"\n");
+      defs += "\"\"\"\n".concat(obj.description.replace(/\n/g, "\n"), "\n\"\"\"\n");
     }
 
-    var objType = obj.type || 'type';
+    var objType = obj.type || "type";
     defs += "".concat(objType, " ").concat(name);
 
-    if (obj.implements) {
-      defs += " implements ".concat(obj.implements);
+    if (obj["implements"]) {
+      defs += " implements ".concat(obj["implements"]);
     }
 
-    if (objType === 'scalar') {
-      defs += '\n';
+    if (objType === "scalar") {
+      defs += "\n";
       return;
     }
 
-    if (objType === 'enum') {
-      defs += ' {\n';
+    if (objType === "enum") {
+      defs += " {\n";
       defs += Object.entries(obj.values).map(function (_ref3) {
         var _ref4 = _slicedToArray(_ref3, 1),
             value = _ref4[0];
 
         return " ".concat(value);
-      }).join('\n');
-      defs += '\n}\n';
+      }).join("\n");
+      defs += "\n}\n";
       return;
     }
 
-    defs += ' {\n';
+    defs += " {\n";
     Object.entries(fields).map(function (_ref5) {
       var _ref6 = _slicedToArray(_ref5, 2),
           field = _ref6[0],
@@ -121,20 +119,20 @@ var getTypeDefs = function getTypeDefs() {
           args = _ref6$.args,
           description = _ref6$.description;
 
-      var fieldArgs = '';
+      var fieldArgs = "";
 
-      if (!_lodash.default.isEmpty(args)) {
+      if (!_lodash["default"].isEmpty(args)) {
         var tmp = [];
         Object.entries(args || {}).forEach(function (_ref7) {
           var _ref8 = _slicedToArray(_ref7, 2),
               k = _ref8[0],
               t = _ref8[1];
 
-          if (typeof t === 'string') {
+          if (typeof t === "string") {
             tmp.push("\t\t".concat(k, ": ").concat(t));
           }
 
-          if (_typeof(t) === 'object') {
+          if (_typeof(t) === "object") {
             if (t.description) {
               tmp.push('\t\t"""');
               tmp.push("\t\t".concat(t.description));
@@ -144,16 +142,16 @@ var getTypeDefs = function getTypeDefs() {
             tmp.push("\t\t".concat(k, ": ").concat(t.type));
           }
         });
-        fieldArgs = "(\n".concat(tmp.join('\n '), "\n\t)");
+        fieldArgs = "(\n".concat(tmp.join("\n "), "\n\t)");
       }
 
       if (description) {
-        defs += "\"\"\"\n".concat(description.replace(/\n/g, '\n'), "\n\"\"\"\n");
+        defs += "\"\"\"\n".concat(description.replace(/\n/g, "\n"), "\n\"\"\"\n");
       }
 
       defs += "\t".concat(field).concat(fieldArgs, ": ").concat(type, "\n");
     });
-    defs += '}\n';
+    defs += "}\n";
   });
   return defs;
 };
@@ -161,13 +159,13 @@ var getTypeDefs = function getTypeDefs() {
 exports.getTypeDefs = getTypeDefs;
 
 var addFields = function addFields(objectName, fields) {
-  _lodash.default.set(extendFields, objectName, _objectSpread({}, extendFields[objectName], fields));
+  _lodash["default"].set(extendFields, objectName, _objectSpread({}, extendFields[objectName], fields));
 };
 
 exports.addFields = addFields;
 
 var addResolver = function addResolver(path, config) {
-  return _lodash.default.set(resolvers, path, config);
+  return _lodash["default"].set(resolvers, path, config);
 };
 
 exports.addResolver = addResolver;
@@ -177,10 +175,8 @@ var getResolvers = function getResolvers() {
 };
 
 exports.getResolvers = getResolvers;
-createEnumType(_OrderType.default);
-createScalarType('Date');
-addResolver('Date', _DateType.default); // createScalarType('Upload');
-
-addResolver('Upload', _UploadType.default);
-createScalarType('JSON');
-addResolver('JSON', _graphqlTypeJson.default);
+createEnumType(_OrderType["default"]);
+createScalarType("Date");
+addResolver("Date", _DateType["default"]);
+createScalarType("JSON");
+addResolver("JSON", _graphqlTypeJson["default"]);

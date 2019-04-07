@@ -222,9 +222,9 @@ As we mentioned before that zeroconf contains node sequelize. You can use other 
 
 Sequlize Doc: [https://sequelize.readthedocs.io/en/1.7.0/docs/usage/](https://sequelize.readthedocs.io/en/1.7.0/docs/usage/)
 
-```
-const path = require('path');
-require('dotenv').config({ debug: process.env.DEBUG });
+```javascript
+const path = require("path");
+require("dotenv").config({ debug: process.env.DEBUG });
 
 module.exports = {
   database: process.env.SQLITE_DATABASE,
@@ -233,19 +233,19 @@ module.exports = {
   option: {
     storage: process.env.SQLITE_STORAGE,
     host: process.env.SQLITE_HOST,
-    dialect: 'sqlite',
+    dialect: "sqlite",
     pool: {
       max: 5,
       min: 0,
       acquire: 30000,
-      idle: 10000,
+      idle: 10000
     },
     additional: {
-      timestamps: false,
+      timestamps: false
       // createdAt: 'cdate',
       // updatedAt: 'udate',
-    },
-  },
+    }
+  }
 };
 ```
 

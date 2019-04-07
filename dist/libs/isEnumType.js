@@ -3,11 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /* eslint-disable no-debugger */
 // https://facebook.github.io/graphql/June2018/#sec-Names
@@ -15,7 +15,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var isEnumType = function isEnumType(attr) {
   var enumType = true;
 
-  _lodash.default.each(attr.type.values, function (value) {
+  _lodash["default"].each(attr.type.values, function (value) {
     var index = value.search(/^[_A-Za-z][_0-9A-Za-z]*/);
 
     if (index === -1) {
@@ -28,4 +28,4 @@ var isEnumType = function isEnumType(attr) {
 };
 
 var _default = isEnumType;
-exports.default = _default;
+exports["default"] = _default;

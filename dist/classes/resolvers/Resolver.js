@@ -2,7 +2,9 @@
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _graphqlSubscriptions = require("graphql-subscriptions");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -15,9 +17,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var _require = require('graphql-subscriptions'),
-    PubSub = _require.PubSub;
 
 var Resolver =
 /*#__PURE__*/
@@ -106,8 +105,8 @@ function () {
     this.afterHook = null;
 
     if (config.hooks) {
-      this.beforeHook = _lodash.default.get(config.hooks, "".concat(this.path, ".before"), null);
-      this.afterHook = _lodash.default.get(config.hooks, "".concat(this.path, ".after"), null);
+      this.beforeHook = _lodash["default"].get(config.hooks, "".concat(this.path, ".before"), null);
+      this.afterHook = _lodash["default"].get(config.hooks, "".concat(this.path, ".after"), null);
     }
   }
 
@@ -195,7 +194,7 @@ function () {
                   where: where,
                   offset: offset,
                   limit: limit,
-                  order: _lodash.default.toPairs(order)
+                  order: _lodash["default"].toPairs(order)
                 });
 
               case 3:

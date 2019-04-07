@@ -2,7 +2,7 @@
 /* eslint-disable no-debugger */
 /* eslint-disable no-restricted-syntax */
 import _ from 'lodash';
-const { PubSub } = require('graphql-subscriptions');
+import { PubSub } from 'graphql-subscriptions';
 
 class Resolver {
   constructor(config) {

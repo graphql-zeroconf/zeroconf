@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "RowSubscriber", {
   enumerable: true,
   get: function get() {
-    return _RowSubscriber.default;
+    return _RowSubscriber["default"];
   }
 });
 Object.defineProperty(exports, "ListSubscriber", {
   enumerable: true,
   get: function get() {
-    return _ListSubscriber.default;
+    return _ListSubscriber["default"];
   }
 });
 
@@ -20,4 +20,4 @@ var _RowSubscriber = _interopRequireDefault(require("./RowSubscriber"));
 
 var _ListSubscriber = _interopRequireDefault(require("./ListSubscriber"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

@@ -12,9 +12,11 @@ var _loader = _interopRequireDefault(require("../libs/loader"));
 
 var _generator = _interopRequireDefault(require("../libs/generator"));
 
+var _composer = require("../libs/composer");
+
 var _isEnumType = _interopRequireDefault(require("../libs/isEnumType"));
 
-var _composer = require("../libs/composer");
+var _UploadType = _interopRequireDefault(require("../types/UploadType"));
 
 var _ModelToObjectType = _interopRequireDefault(require("./convert/ModelToObjectType"));
 
@@ -30,7 +32,7 @@ var _ModelNameToTypeName = _interopRequireDefault(require("./convert/ModelNameTo
 
 var _FieldToEnumType = _interopRequireDefault(require("./convert/FieldToEnumType"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -54,9 +56,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var models = require(_path.default.resolve('models'));
+var models = require(_path["default"].resolve('models'));
 
-var Op = _sequelize.default.Op;
+var Op = _sequelize["default"].Op;
 var operatorsAliases = {
   eq: Op.eq,
   ne: Op.ne,
@@ -65,7 +67,7 @@ var operatorsAliases = {
   lte: Op.lte,
   lt: Op.lt,
   not: Op.not,
-  in: Op.in,
+  "in": Op["in"],
   notIn: Op.notIn,
   is: Op.is,
   like: Op.like,
@@ -102,20 +104,24 @@ function () {
 
     this.hooks = {};
     this.models = {};
+    this.graphiql = true;
 
     if (config.context) {
       this.setContext(config.context);
       delete config.context;
     }
 
-    var _arr = Object.keys(config);
-
-    for (var _i = 0; _i < _arr.length; _i++) {
-      var key = _arr[_i];
+    for (var _i = 0, _Object$keys = Object.keys(config); _i < _Object$keys.length; _i++) {
+      var key = _Object$keys[_i];
       this[key] = config[key];
     }
 
     this.pubSub = new _graphqlSubscriptions.PubSub();
+
+    if (config.withApollo !== true) {
+      (0, _composer.createScalarType)('Upload');
+      (0, _composer.addResolver)('Upload', _UploadType["default"]);
+    }
   }
 
   _createClass(ZeroConf, [{
@@ -124,18 +130,18 @@ function () {
       var attributes = model.attributes,
           TypeName = model.convertedName.TypeName;
 
-      _lodash.default.each(attributes, function (attr, key) {
+      _lodash["default"].each(attributes, function (attr, key) {
         var dataType = attr.type.constructor.name;
 
         if (dataType !== 'ENUM') {
           return;
         }
 
-        if (!(0, _isEnumType.default)(attr)) {
+        if (!(0, _isEnumType["default"])(attr)) {
           return;
         }
 
-        (0, _composer.createEnumType)(new _FieldToEnumType.default(TypeName, attr));
+        (0, _composer.createEnumType)(new _FieldToEnumType["default"](TypeName, attr));
       });
     }
   }, {
@@ -146,11 +152,11 @@ function () {
       Object.values(this.models).forEach(function (model) {
         _this.composeEnumType(model);
 
-        (0, _composer.createType)(new _ModelToObjectType.default(model));
-        (0, _composer.createInputType)(new _ModelToCreationInputType.default(model));
-        (0, _composer.createInputType)(new _ModelToUpdateInputType.default(model));
-        (0, _composer.createInputType)(new _ModelToWhereInputType.default(model));
-        (0, _composer.createInputType)(new _ModelToOrderInputType.default(model));
+        (0, _composer.createType)(new _ModelToObjectType["default"](model));
+        (0, _composer.createInputType)(new _ModelToCreationInputType["default"](model));
+        (0, _composer.createInputType)(new _ModelToUpdateInputType["default"](model));
+        (0, _composer.createInputType)(new _ModelToWhereInputType["default"](model));
+        (0, _composer.createInputType)(new _ModelToOrderInputType["default"](model));
       });
     }
   }, {
@@ -168,7 +174,7 @@ function () {
             switch (_context.prev = _context.next) {
               case 0:
                 _this$sequelizeConfig = this.sequelizeConfig, database = _this$sequelizeConfig.database, user = _this$sequelizeConfig.user, password = _this$sequelizeConfig.password, option = _this$sequelizeConfig.option;
-                this.sequelize = new _sequelize.default(database, user, password, _objectSpread({
+                this.sequelize = new _sequelize["default"](database, user, password, _objectSpread({
                   operatorsAliases: operatorsAliases
                 }, option));
                 Object.entries(models).forEach(function (_ref) {
@@ -176,9 +182,9 @@ function () {
                       modelName = _ref2[0],
                       definition = _ref2[1];
 
-                  var model = _this2.sequelize.import(modelName, definition);
+                  var model = _this2.sequelize["import"](modelName, definition);
 
-                  model.convertedName = new _ModelNameToTypeName.default(modelName);
+                  model.convertedName = new _ModelNameToTypeName["default"](modelName);
                   _this2.models[modelName] = model;
                 });
 
@@ -217,7 +223,7 @@ function () {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(_lodash.default.isEmpty(this.hooksPath) === true)) {
+                if (!(_lodash["default"].isEmpty(this.hooksPath) === true)) {
                   _context2.next = 2;
                   break;
                 }
@@ -226,7 +232,7 @@ function () {
 
               case 2:
                 _context2.next = 4;
-                return (0, _loader.default)(this.hooksPath);
+                return (0, _loader["default"])(this.hooksPath);
 
               case 4:
                 hookDefs = _context2.sent;
@@ -238,7 +244,7 @@ function () {
                 for (_iterator = hookDefs[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   _step$value = _step.value, type = _step$value.type, name = _step$value.name, when = _step$value.when, hook = _step$value.hook;
 
-                  _lodash.default.set(this.hooks, "".concat(type, ".").concat(name, ".").concat(when), hook);
+                  _lodash["default"].set(this.hooks, "".concat(type, ".").concat(name, ".").concat(when), hook);
                 }
 
                 _context2.next = 16;
@@ -254,8 +260,8 @@ function () {
                 _context2.prev = 16;
                 _context2.prev = 17;
 
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
                 }
 
               case 19:
@@ -298,7 +304,7 @@ function () {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(_lodash.default.isEmpty(this.extendsPath) === true)) {
+                if (!(_lodash["default"].isEmpty(this.extendsPath) === true)) {
                   _context3.next = 2;
                   break;
                 }
@@ -307,11 +313,11 @@ function () {
 
               case 2:
                 _context3.next = 4;
-                return (0, _loader.default)(this.extendsPath);
+                return (0, _loader["default"])(this.extendsPath);
 
               case 4:
                 this.queryExtends = _context3.sent;
-                (0, _generator.default)(this, 'QueryExtends');
+                (0, _generator["default"])(this, 'QueryExtends');
 
               case 6:
               case "end":
@@ -338,7 +344,7 @@ function () {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!(_lodash.default.isEmpty(this.typesPath) === true)) {
+                if (!(_lodash["default"].isEmpty(this.typesPath) === true)) {
                   _context4.next = 2;
                   break;
                 }
@@ -347,7 +353,7 @@ function () {
 
               case 2:
                 _context4.next = 4;
-                return (0, _loader.default)(this.typesPath);
+                return (0, _loader["default"])(this.typesPath);
 
               case 4:
                 types = _context4.sent;
@@ -379,7 +385,7 @@ function () {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!(_lodash.default.isEmpty(this.sequelizeConfig) === true)) {
+                if (!(_lodash["default"].isEmpty(this.sequelizeConfig) === true)) {
                   _context5.next = 2;
                   break;
                 }
@@ -400,10 +406,10 @@ function () {
 
               case 8:
                 this.composeGraphQLObject();
-                (0, _generator.default)(this, 'Query');
-                (0, _generator.default)(this, 'Subscription');
-                (0, _generator.default)(this, 'Mutation');
-                (0, _generator.default)(this, 'Children');
+                (0, _generator["default"])(this, 'Query');
+                (0, _generator["default"])(this, 'Subscription');
+                (0, _generator["default"])(this, 'Mutation');
+                (0, _generator["default"])(this, 'Children');
                 _context5.next = 15;
                 return this.initExtends();
 

@@ -6,10 +6,10 @@ var _loader = _interopRequireDefault(require("./libs/loader"));
 
 var _dataLoader = _interopRequireDefault(require("./libs/dataLoader"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 module.exports = {
-  ZeroConf: _ZeroConf.default,
-  loader: _loader.default,
-  dataLoader: _dataLoader.default
+  ZeroConf: _ZeroConf["default"],
+  loader: _loader["default"],
+  dataLoader: _dataLoader["default"]
 };

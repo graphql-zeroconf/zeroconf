@@ -7,7 +7,9 @@ import { PubSub } from 'graphql-subscriptions';
 
 import loader from '../libs/loader';
 import generator from '../libs/generator';
+import { addResolver, createScalarType } from '../libs/composer';
 import isEnumType from '../libs/isEnumType';
+import UploadType from '../types/UploadType';
 
 import {
   createType,
@@ -71,6 +73,7 @@ class ZeroConf {
   constructor(config) {
     this.hooks = {};
     this.models = {};
+    this.graphiql = true;
 
     if (config.context) {
       this.setContext(config.context);
@@ -82,6 +85,11 @@ class ZeroConf {
     }
 
     this.pubSub = new PubSub();
+
+    if (config.withApollo !== true) {
+      createScalarType('Upload');
+      addResolver('Upload', UploadType);
+    }
   }
 
   composeEnumType(model) {
