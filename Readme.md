@@ -1,4 +1,4 @@
-### Zeroconf
+## Zeroconf
 
 The simplest way to start graphql with zero configuration on existing database.
 
@@ -6,7 +6,28 @@ Zeroconf supports to generate C.R.U.D API automatically. It has powerful where c
 
 Lets say that we have user table on our database. In this case zeroconf CRUD schema will be generated with its table name.
 
-### Sequelize ORM
+
+## Get Started
+
+MySQL, MariaDB
+
+[https://github.com/graphql-zeroconf/zeroconf_mysql_template](https://github.com/graphql-zeroconf/zeroconf_mysql_template)
+
+Postgres
+
+[https://github.com/graphql-zeroconf/zeroconf_postgresql_template](https://github.com/graphql-zeroconf/zeroconf_postgresql_template)
+
+
+SQLite
+
+[https://github.com/graphql-zeroconf/zeroconf_sqlite_template](https://github.com/graphql-zeroconf/zeroconf_sqlite_template)
+
+MSSQL
+
+[https://github.com/graphql-zeroconf/zeroconf_mssql_template](https://github.com/graphql-zeroconf/zeroconf_mssql_template)
+
+
+## Sequelize ORM
 
 The Zeroconf also uses sequelize orm in its core and has operatorAliases for complex where clauses like below. so you can see that query manual for use it.
 
@@ -66,11 +87,16 @@ query {
 }
 ```
 
-### Support Generating C.R.U.D API
+## Set the sequelize options
 
-#### Object generation support:
+As we mentioned before that zeroconf contains node sequelize. You can use other options for sequelize to initialize. After clone the repository zeroconf_template and open the file `.sequelize.cfg.js`. Edit options and add more you needed. If you want to know more options on sequelize, please refer to the link below to set up other options.
 
-- The zeroconf will generates object types and mutations, queries over the your table name.
+Sequlize Doc: [https://sequelize.readthedocs.io/en/1.7.0/docs/usage/](https://sequelize.readthedocs.io/en/1.7.0/docs/usage/)
+
+
+## Support Generating C.R.U.D API
+
+The zeroconf will generates object types and mutations, queries over the your table name.
 
   If you have a table which called **user_lesson**, zeroconf will generate these things.
 
@@ -79,7 +105,7 @@ query {
   - Subscription { **userLesson**, **userLessons**, **numUserLesson** }
   - Mutation { **createUserLesson**, **updateUserLessons**, **deleteUserLesson** }
 
-#### Query generation support:
+### Query generation support:
 
 - generated singluar name Query field for fetching one row
 
@@ -89,7 +115,7 @@ query {
 
   **users**(**limit**: Int, **start**: Int, **where**: JSON, **order**: UserOrderInput)
 
-#### Mutation generation support:
+### Mutation generation support:
 
 - Creation
 
@@ -103,7 +129,7 @@ query {
 
   **_deleteUser_**(input: UserCreationInput!): User
 
-#### Child Relations
+### Child Relations
 
 If table has the column id and it has foreign key which refers to the other tables.
 zeroconf generates sub-fields for graph query.
@@ -171,82 +197,6 @@ query {
     ]
   }
 }
-```
-
-### Installation
-
-```
-git clone https://github.com/graphql-zeroconf/zeroconf_template.git
-npm install
-```
-
-Create your .env file. Here is the example for each databases. Zeroconf contains sequelize in it so we can use the databases that MySQL, MariaDB, Postgres, SQLite And MSSQL.
-
-MySQL, MariaDB
-
-```
-.env
-
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_DATABASE=db
-MYSQL_USER=user
-MYSQL_PASSWORD=pwd
-```
-
-Postgres
-
-```
-.env
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_DATABASE=db
-POSTGRES_USER=user
-POSTGRES_PASSWORD=pwd
-```
-
-SQLite
-
-```
-.env
-SQLITE_HOST=localhost
-SQLITE_DATABASE=main
-SQLITE_USER=
-SQLITE_PASSWORD=
-SQLITE_STORAGE=./sqlite/chinook.db
-```
-
-Other options
-
-As we mentioned before that zeroconf contains node sequelize. You can use other options for sequelize to initialize. After clone the repository zeroconf_template and open the file `.sequelize.cfg.js`. Edit options and add more you needed. If you want to know more options on sequelize, please refer to the link below to set up other options.
-
-Sequlize Doc: [https://sequelize.readthedocs.io/en/1.7.0/docs/usage/](https://sequelize.readthedocs.io/en/1.7.0/docs/usage/)
-
-```javascript
-const path = require("path");
-require("dotenv").config({ debug: process.env.DEBUG });
-
-module.exports = {
-  database: process.env.SQLITE_DATABASE,
-  user: process.env.SQLITE_USER,
-  password: process.env.SQLITE_PASSWORD,
-  option: {
-    storage: process.env.SQLITE_STORAGE,
-    host: process.env.SQLITE_HOST,
-    dialect: "sqlite",
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    },
-    additional: {
-      timestamps: false
-      // createdAt: 'cdate',
-      // updatedAt: 'udate',
-    }
-  }
-};
 ```
 
 Generate models
