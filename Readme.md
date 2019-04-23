@@ -94,13 +94,11 @@ query {
 }
 ```
 
-## Set the sequelize options
+## Set the sequelize your own operators option
 
 As we mentioned before that zeroconf contains node sequelize. You can use other options for sequelize to initialize. After clone the repository zeroconf_template and open the file `.sequelize.cfg.js`. Edit options and add more you needed. If you want to know more options on sequelize, please refer to the link below to set up other options.
 
 Sequlize Doc: [http://docs.sequelizejs.com/manual/querying.html#operators-aliases](http://docs.sequelizejs.com/manual/querying.html#operators-aliases)
-
-
 
 ```javascript
 
