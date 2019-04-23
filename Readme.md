@@ -31,22 +31,22 @@ Lets say that we have user table on our database. In this case zeroconf CRUD sch
 
 The zeroconf will generates object types and mutations, queries over the your table name.
 
-  If you have a table which named **user**, zeroconf will generate these things.
+  If you have a table which named <span style="color:red">**user**</span>, zeroconf will generate these things.
 
-  - type **User**
-  - Query { **user**, **users**, **numUser** }
-  - Subscription { **user**, **users**, **numUser** }
-  - Mutation { **createUser**, **updateUsers**, **deleteUser** }
+  - type <span style="color:red">**User**</span>
+  - Query { <span style="color:red">**user**</span>, <span style="color:red">**users**</span>, <span style="color:red">**numUser**</span> }
+  - Subscription { <span style="color:red">**user**</span>, <span style="color:red">**users**</span>, <span style="color:red">**numUser**</span> }
+  - Mutation { <span style="color:red">**createUser**</span>, <span style="color:red">**updateUsers**</span>, <span style="color:red">**deleteUser**</span> }
 
 ### Automatically Generated Queries:
 
 - generated singluar name Query field for fetching one row
 
-  **user**(**where**: UserWhereInput!): User
+  <span style="color:red">**user**</span>(**where**: <span style="color:red">UserWhereInput!</span>): User
 
 - generated plural name Query field for fetching all row on some query condition:
 
-  **users**(**limit**: Int, **start**: Int, **where**: JSON, **order**: UserOrderInput)
+  <span style="color:red">**users**</span>(**limit**: Int, **start**: Int, **where**: JSON, **order**: <span style="color:red">UserOrderInput</span>)
 
 ### Automatically Generated Subscriptions:
 
@@ -54,25 +54,25 @@ If you want to subscribe for data streaming, use the Subscription.
 
 - generated singluar name Subscription field for fetching one row
 
-  **user**(**where**: UserWhereInput!): User
+  <span style="color:red">**user**</span>(**where**: <span style="color:red">UserWhereInput!</span>): <span style="color:red">User</span>
 
 - generated plural name Subscription field for fetching all row on some query condition:
 
-  **users**(**limit**: Int, **start**: Int, **where**: JSON, **order**: UserOrderInput)
+  <span style="color:red">**users**</span>(**limit**: Int, **start**: Int, **where**: JSON, **order**: <span style="color:red">UserOrderInput</span>)
 
 ### Automatically Generated Mutations:
 
 - Creation
 
-  **_createUser_**(input: UserCreationInput!): User
+  <span style="color:red">**_createUser_**</span>(input: <span style="color:red">UserCreationInput!</span>): <span style="color:red">User</span>
 
 - Update:
 
-  **_updateUser_**(where: UserWhereInput!, input: UserUpdateInput!): User
+  <span style="color:red">**_updateUser_**</span>(where: UserWhereInput!, input: <span style="color:red">UserUpdateInput!</span>): <span style="color:red">User</span>
 
 - Delete:
 
-  **_deleteUser_**(input: UserCreationInput!): User
+  <span style="color:red">**_deleteUser_**</span>(where: <span style="color:red">UserWhereInput!</span>): <span style="color:red">User</span>
 
 ## Sequelize ORM
 
