@@ -8,6 +8,8 @@ var _sequelize = _interopRequireDefault(require("sequelize"));
 
 var _graphqlSubscriptions = require("graphql-subscriptions");
 
+var _acl = _interopRequireDefault(require("../libs/acl"));
+
 var _loader = _interopRequireDefault(require("../libs/loader"));
 
 var _generator = _interopRequireDefault(require("../libs/generator"));
@@ -111,6 +113,12 @@ function () {
       delete config.context;
     }
 
+    if (config.allows) {
+      _acl["default"].allow(config.allows);
+
+      this.acl = _acl["default"];
+    }
+
     for (var _i = 0, _Object$keys = Object.keys(config); _i < _Object$keys.length; _i++) {
       var key = _Object$keys[_i];
       this[key] = config[key];
@@ -208,7 +216,7 @@ function () {
       var _this3 = this;
 
       this.context = function (args) {
-        return func.apply(_this3, [args, _this3.models]);
+        return func.apply(_this3, [args, _this3.models, _this3.acl]);
       };
     }
   }, {

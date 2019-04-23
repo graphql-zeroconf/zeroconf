@@ -5,6 +5,7 @@ import path from 'path';
 import Sequelize from 'sequelize';
 import { PubSub } from 'graphql-subscriptions';
 
+import acl from '../libs/acl';
 import loader from '../libs/loader';
 import generator from '../libs/generator';
 import { addResolver, createScalarType } from '../libs/composer';
@@ -80,6 +81,11 @@ class ZeroConf {
       delete config.context;
     }
 
+    if (config.allows) {
+      acl.allow(config.allows);
+      this.acl = acl;
+    }
+
     for (const key of Object.keys(config)) {
       this[key] = config[key];
     }
@@ -141,7 +147,7 @@ class ZeroConf {
   }
 
   setContext(func) {
-    this.context = args => func.apply(this, [args, this.models]);
+    this.context = args => func.apply(this, [args, this.models, this.acl]);
   }
 
   async initHooks() {
