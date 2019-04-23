@@ -355,8 +355,8 @@ module.exports = {
 
 ``` javascript
 // clouds/hooks/User/beforeCreateUser.js
-const uuidv1 = require('uuid/v1');
-const { createPassword } = require('../../../libs/password');
+import uuidv1 'uuid/v1';
+import { createPassword } '../../../libs/password';
 
 module.exports = {
   type: 'Mutation',
@@ -378,8 +378,8 @@ module.exports = {
 
 ``` javascript
 // clouds/hooks/User/afterCreateUser.js
-const uuidv1 = require('uuid/v1');
-const { sendMail } = require('../../../libs/sendMail');
+import uuidv1 'uuid/v1';
+import { sendMail } '../../../libs/sendMail';
 
 module.exports = {
   type: 'Mutation',
@@ -405,7 +405,6 @@ module.exports = {
   },
 };
 ```
-
 
 ``` javascript
 // clouds/types/Dog.js
