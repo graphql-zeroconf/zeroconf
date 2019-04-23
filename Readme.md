@@ -212,3 +212,218 @@ query {
   }
 }
 ```
+
+## Extends the Cloud Code
+
+Zeroconf does not use GraphQLObjectType to extends Graphql Object to avoid error that "Error: Cannot use GraphQLSchema "[object Object]" from another module or realm."
+
+So we can support simplest way to extends on your existing object.
+
+### Extends Types
+
+#### Query
+
+``` javascript
+// clouds/extends/Query/customField.js
+module.exports = {
+  type: "Query",
+  field: "customField",
+  returnType: "[User]",
+  args: {
+    age: 'Int!',
+  },
+  resolver: async (parent, args, context, info) => {
+    const { models } = context;
+    const { age } = args;
+
+    const result = await models.user.fineAll({
+      where: {
+        age
+      }
+    });
+
+    return result;
+  }
+};
+```
+
+#### Mutation
+
+``` javascript
+// clouds/extends/Mutation/signIn.js
+module.exports = {
+  type: 'Mutation',
+  field: 'signIn',
+  returnType: 'User', // return a user(not array only object)
+  args: {
+    email: 'String!',
+    password: 'String!',
+  },
+  resolver: async (parent, args, context, info) => {
+    const { models } = context;
+    const { email, password } = args;
+
+    // todo
+    // return user;
+  },
+};
+
+```
+
+#### The other objects
+
+
+```javascript
+import { Op } from 'sequelize';
+import { dataLoader } from 'zeroconf';
+
+module.exports = {
+  type: 'User',
+  field: 'friends',
+  returnType: '[Friend]',
+  resolver: async (parent, args, context, info) => {
+    // todo
+  },
+};
+```
+
+Also you can query with facebook data loader with more simply way.
+
+```javascript
+import { Op } from 'sequelize';
+import { dataLoader } from 'zeroconf';
+
+module.exports = {
+  type: 'User',
+  field: 'friends',
+  returnType: '[Friend]',
+  resolver: async (parent, args, context, info) => {
+    const isFindOne = false; // findAll
+    const targetKey = 'user_id';
+    const sourceKey = 'user_id';
+    const sourceVal = parent[sourceKey];
+    const modelName = 'users_friends';
+
+    const loader = dataLoader.query(context, modelName, async (values) => {
+      const { models } = context;
+      const result = await models[modelName].findAll({
+        where: {
+          [targetKey]: {
+            [Op.in]: values,
+          },
+        },
+      });
+
+      return dataLoader.groupMapping(result, values, targetKey, isFindOne);
+    });
+
+    return loader.load(sourceVal);
+  },
+};
+```
+
+### Hooks
+
+#### before hook
+
+``` javascript
+// clouds/hooks/User/beforeCreateUser.js
+module.exports = {
+  type: 'Mutation',
+  name: 'createUser',
+  when: 'before',
+  hook: async (parent, args, context, hook) => {
+    // todo
+  },
+};
+```
+
+#### after hook
+``` javascript
+// clouds/hooks/User/afterCreateUser.js
+module.exports = {
+  type: 'Mutation',
+  name: 'createUser',
+  when: 'after',
+  hook: async (parent, args, context, hook) => {
+    // todo
+  },
+};
+```
+
+### hook example
+
+``` javascript
+// clouds/hooks/User/beforeCreateUser.js
+const uuidv1 = require('uuid/v1');
+const { createPassword } = require('../../../libs/password');
+
+module.exports = {
+  type: 'Mutation',
+  name: 'createUser',
+  when: 'before',
+  hook: async (parent, args, context, hook) => {
+    const {
+      input: { password, email },
+    } = args;
+    const created = await createPassword(password, process.env.PASSWORD_SALT);
+
+    args.input.password = created.pw;
+    args.input.uuid = uuidv1();
+
+    return args;
+  },
+};
+```
+
+``` javascript
+// clouds/hooks/User/afterCreateUser.js
+const uuidv1 = require('uuid/v1');
+const { sendMail } = require('../../../libs/sendMail');
+
+module.exports = {
+  type: 'Mutation',
+  name: 'createUser',
+  when: 'after',
+  hook: async (parent, args, context, hook) => {
+
+    sendMail('welcome to zeroconf!')
+  },
+};
+```
+
+### Custom Types
+
+``` javascript
+// clouds/types/File.js
+module.exports = {
+  name: 'File',
+  fields: {
+    filename: { type: 'String!' },
+    mimetype: { type: 'String!' },
+    encoding: { type: 'String!' },
+  },
+};
+```
+
+
+``` javascript
+// clouds/types/Dog.js
+module.exports = {
+  name: "Dog",
+  fields: {
+    age: {
+      type: 'Int!',
+      description: "age",
+    },
+    weight: {
+      type: 'String!',
+      description: "weight"
+    },
+    color: {
+      type: 'String',
+      description: "color"
+    },
+  }
+};
+```
