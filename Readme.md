@@ -4,6 +4,27 @@ The simplest way to start graphql with zero configuration on existing database.
 
 Zeroconf supports to generate C.R.U.D API automatically. It has powerful where clauses for query and also has interface which called hook in each C.U.D mutations.
 
+## Get Started
+
+MySQL, MariaDB
+
+[https://github.com/graphql-zeroconf/zeroconf_mysql_template](https://github.com/graphql-zeroconf/zeroconf_mysql_template)
+
+Postgres
+
+[https://github.com/graphql-zeroconf/zeroconf_postgresql_template](https://github.com/graphql-zeroconf/zeroconf_postgresql_template)
+
+
+SQLite
+
+[https://github.com/graphql-zeroconf/zeroconf_sqlite_template](https://github.com/graphql-zeroconf/zeroconf_sqlite_template)
+
+MSSQL
+
+[https://github.com/graphql-zeroconf/zeroconf_mssql_template](https://github.com/graphql-zeroconf/zeroconf_mssql_template)
+
+
+
 ## Support Generating C.R.U.D API
 
 Lets say that we have user table on our database. In this case zeroconf CRUD schema will be generated with its table name.
@@ -52,27 +73,6 @@ If you want to subscribe for data streaming, use the Subscription.
 - Delete:
 
   **_deleteUser_**(input: UserCreationInput!): User
-
-
-## Get Started
-
-MySQL, MariaDB
-
-[https://github.com/graphql-zeroconf/zeroconf_mysql_template](https://github.com/graphql-zeroconf/zeroconf_mysql_template)
-
-Postgres
-
-[https://github.com/graphql-zeroconf/zeroconf_postgresql_template](https://github.com/graphql-zeroconf/zeroconf_postgresql_template)
-
-
-SQLite
-
-[https://github.com/graphql-zeroconf/zeroconf_sqlite_template](https://github.com/graphql-zeroconf/zeroconf_sqlite_template)
-
-MSSQL
-
-[https://github.com/graphql-zeroconf/zeroconf_mssql_template](https://github.com/graphql-zeroconf/zeroconf_mssql_template)
-
 
 ## Sequelize ORM
 
@@ -209,16 +209,4 @@ query {
     ]
   }
 }
-```
-
-Generate models
-
-```
-$ node scripts/gen_model
-```
-
-Just Start
-
-```
-$ npm start
 ```
