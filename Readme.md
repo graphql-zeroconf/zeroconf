@@ -1,10 +1,57 @@
-## Zeroconf
+# Zeroconf
 
 The simplest way to start graphql with zero configuration on existing database.
 
 Zeroconf supports to generate C.R.U.D API automatically. It has powerful where clauses for query and also has interface which called hook in each C.U.D mutations.
 
+## Support Generating C.R.U.D API
+
 Lets say that we have user table on our database. In this case zeroconf CRUD schema will be generated with its table name.
+
+The zeroconf will generates object types and mutations, queries over the your table name.
+
+  If you have a table which named **user**, zeroconf will generate these things.
+
+  - type **User**
+  - Query { **user**, **users**, **numUser** }
+  - Subscription { **user**, **users**, **numUser** }
+  - Mutation { **createUser**, **updateUsers**, **deleteUser** }
+
+### Automatically Generated Queries:
+
+- generated singluar name Query field for fetching one row
+
+  **user**(**where**: UserWhereInput!): User
+
+- generated plural name Query field for fetching all row on some query condition:
+
+  **users**(**limit**: Int, **start**: Int, **where**: JSON, **order**: UserOrderInput)
+
+### Automatically Generated Subscriptions:
+
+If you want to subscribe for data streaming, use the Subscription.
+
+- generated singluar name Subscription field for fetching one row
+
+  **user**(**where**: UserWhereInput!): User
+
+- generated plural name Subscription field for fetching all row on some query condition:
+
+  **users**(**limit**: Int, **start**: Int, **where**: JSON, **order**: UserOrderInput)
+
+### Automatically Generated Mutations:
+
+- Creation
+
+  **_createUser_**(input: UserCreationInput!): User
+
+- Update:
+
+  **_updateUser_**(where: UserWhereInput!, input: UserUpdateInput!): User
+
+- Delete:
+
+  **_deleteUser_**(input: UserCreationInput!): User
 
 
 ## Get Started
@@ -93,41 +140,6 @@ As we mentioned before that zeroconf contains node sequelize. You can use other 
 
 Sequlize Doc: [https://sequelize.readthedocs.io/en/1.7.0/docs/usage/](https://sequelize.readthedocs.io/en/1.7.0/docs/usage/)
 
-
-## Support Generating C.R.U.D API
-
-The zeroconf will generates object types and mutations, queries over the your table name.
-
-  If you have a table which called **user_lesson**, zeroconf will generate these things.
-
-  - type **UserLesson**
-  - Query { **userLesson**, **userLessons**, **numUserLesson** }
-  - Subscription { **userLesson**, **userLessons**, **numUserLesson** }
-  - Mutation { **createUserLesson**, **updateUserLessons**, **deleteUserLesson** }
-
-### Query generation support:
-
-- generated singluar name Query field for fetching one row
-
-  **user**(**where**: UserWhereInput!): User
-
-- generated plural name Query field for fetching all row on some query condition:
-
-  **users**(**limit**: Int, **start**: Int, **where**: JSON, **order**: UserOrderInput)
-
-### Mutation generation support:
-
-- Creation
-
-  **_createUser_**(input: UserCreationInput!): User
-
-- Update:
-
-  **_updateUser_**(where: UserWhereInput!, input: UserUpdateInput!): User
-
-- Delete:
-
-  **_deleteUser_**(input: UserCreationInput!): User
 
 ### Child Relations
 
