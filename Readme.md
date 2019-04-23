@@ -76,7 +76,31 @@ If you want to subscribe for data streaming, use the Subscription.
 
 ## Sequelize ORM
 
-The Zeroconf also uses sequelize orm in its core and has operatorAliases for complex where clauses like below. so you can see that query manual for use it.
+The Zeroconf also uses sequelize orm in its core and has operatorAliases for complex where clauses like below.
+
+Sequlize Doc: [http://docs.sequelizejs.com/manual/querying.html#where](http://docs.sequelizejs.com/manual/querying.html#where)
+
+```graphql
+
+query {
+  users(
+    where: {
+      or: [{ user_id: 1, user_id: 2 }]
+    }
+  ) {
+    user_id
+    email
+  }
+}
+```
+
+## Set the sequelize options
+
+As we mentioned before that zeroconf contains node sequelize. You can use other options for sequelize to initialize. After clone the repository zeroconf_template and open the file `.sequelize.cfg.js`. Edit options and add more you needed. If you want to know more options on sequelize, please refer to the link below to set up other options.
+
+Sequlize Doc: [http://docs.sequelizejs.com/manual/querying.html#operators-aliases](http://docs.sequelizejs.com/manual/querying.html#operators-aliases)
+
+
 
 ```javascript
 
@@ -119,29 +143,6 @@ const operatorsAliases = {
   $col: Op.col
 };
 ```
-
-As of result, You can query to the graphql server like this.
-
-```graphql
-
-query {
-  users(
-    where: {
-      or: [{ user_id: 1, user_id: 2 }]
-    }
-  ) {
-    user_id
-    email
-  }
-}
-```
-
-## Set the sequelize options
-
-As we mentioned before that zeroconf contains node sequelize. You can use other options for sequelize to initialize. After clone the repository zeroconf_template and open the file `.sequelize.cfg.js`. Edit options and add more you needed. If you want to know more options on sequelize, please refer to the link below to set up other options.
-
-Sequlize Doc: [https://sequelize.readthedocs.io/en/1.7.0/docs/usage/](https://sequelize.readthedocs.io/en/1.7.0/docs/usage/)
-
 
 ### Child Relations
 
