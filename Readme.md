@@ -78,7 +78,8 @@ If you want to subscribe for data streaming, use the Subscription.
 
 The Zeroconf also uses sequelize orm in its core and has operatorAliases for complex where clauses like below. so you can see that query manual for use it.
 
-```
+```javascript
+
 // The default contained operatorsAliases.
 
 const operatorsAliases = {
@@ -121,7 +122,8 @@ const operatorsAliases = {
 
 As of result, You can query to the graphql server like this.
 
-```
+```graphql
+
 query {
   users(
     where: {
