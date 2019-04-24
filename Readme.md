@@ -4,9 +4,9 @@ The simplest way to start graphql with zero configuration on existing database.
 
 Zeroconf supports to generate C.R.U.D API automatically. It has powerful where clauses for query and also has interface which called hook in each C.U.D mutations.
 
-## Get Started
+## How to get started
 
-MySQL, MariaDB
+MySQL
 
 [https://github.com/graphql-zeroconf/zeroconf_mysql_template](https://github.com/graphql-zeroconf/zeroconf_mysql_template)
 
