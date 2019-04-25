@@ -9,6 +9,8 @@ var _lodash = _interopRequireDefault(require("lodash"));
 
 var _graphqlTypeJson = _interopRequireDefault(require("graphql-type-json"));
 
+var _graphqlBigint = _interopRequireDefault(require("graphql-bigint"));
+
 var _OrderType = _interopRequireDefault(require("../types/OrderType"));
 
 var _DateType = _interopRequireDefault(require("../types/DateType"));
@@ -180,3 +182,5 @@ createScalarType("Date");
 addResolver("Date", _DateType["default"]);
 createScalarType("JSON");
 addResolver("JSON", _graphqlTypeJson["default"]);
+createScalarType("BigInt");
+addResolver("BigInt", _graphqlBigint["default"]);

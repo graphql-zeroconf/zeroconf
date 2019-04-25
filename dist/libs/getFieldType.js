@@ -29,6 +29,8 @@ var getFieldType = function getFieldType(isInput, TypeName, attr) {
     }
   } else if (dataType === 'DATE') {
     type = 'Date';
+  } else if (dataType.indexOf('BIGINT') > -1) {
+    type = 'BigInt';
   } else if (dataType.indexOf('INT') > -1) {
     type = 'Int';
   } else if (dataType === 'DECIMAL') {

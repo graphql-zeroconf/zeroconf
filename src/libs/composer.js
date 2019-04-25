@@ -1,5 +1,6 @@
 import _ from "lodash";
 import GraphQLJSON from "graphql-type-json";
+import GraphQLBigInt from "graphql-bigint";
 
 import OrderType from "../types/OrderType";
 import DateType from "../types/DateType";
@@ -127,3 +128,5 @@ createScalarType("Date");
 addResolver("Date", DateType);
 createScalarType("JSON");
 addResolver("JSON", GraphQLJSON);
+createScalarType("BigInt");
+addResolver("BigInt", GraphQLBigInt);
