@@ -100,11 +100,11 @@ class ZeroConf {
 
   composeEnumType(model) {
     const {
-      attributes,
+      rawAttributes,
       convertedName: { TypeName },
     } = model;
 
-    _.each(attributes, (attr, key) => {
+    _.each(rawAttributes, (attr, key) => {
       const dataType = attr.type.constructor.name;
       if (dataType !== 'ENUM') {
         return;

@@ -4,7 +4,7 @@ import { getFieldTypeForOrder } from '../../libs/getFieldType';
 class ModelToOrderInputType {
   constructor(model) {
     const {
-      attributes,
+      rawAttributes,
       convertedName: { TypeName },
     } = model;
 
@@ -13,7 +13,7 @@ class ModelToOrderInputType {
 
     const fields = {};
 
-    _.each(attributes, (attr, key) => {
+    _.each(rawAttributes, (attr, key) => {
       fields[attr.fieldName] = {
         type: getFieldTypeForOrder(TypeName, attr),
       };

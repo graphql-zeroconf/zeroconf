@@ -5,7 +5,7 @@ class ModelToWhereInputType {
   constructor(model) {
     const {
       options: { createdAt, updatedAt },
-      attributes,
+      rawAttributes,
       convertedName: { TypeName },
     } = model;
 
@@ -14,7 +14,7 @@ class ModelToWhereInputType {
 
     const fields = {};
 
-    _.each(attributes, (attr, key) => {
+    _.each(rawAttributes, (attr, key) => {
       if (createdAt === key || updatedAt === key) {
         return;
       }

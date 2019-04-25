@@ -14,13 +14,13 @@ var ModelToCreationInputType = function ModelToCreationInputType(model) {
   var _model$options = model.options,
       createdAt = _model$options.createdAt,
       updatedAt = _model$options.updatedAt,
-      attributes = model.attributes,
+      rawAttributes = model.rawAttributes,
       TypeName = model.convertedName.TypeName;
   this.type = 'input';
   this.name = "".concat(TypeName, "CreationInput");
   var fields = {};
 
-  _lodash["default"].each(attributes, function (attr, key) {
+  _lodash["default"].each(rawAttributes, function (attr, key) {
     if (createdAt === key || updatedAt === key) {
       return;
     }

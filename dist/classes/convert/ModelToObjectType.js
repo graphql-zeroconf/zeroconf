@@ -11,12 +11,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var ModelToObjectType = function ModelToObjectType(model) {
   _classCallCheck(this, ModelToObjectType);
 
-  var attributes = model.attributes,
+  var rawAttributes = model.rawAttributes,
       TypeName = model.convertedName.TypeName;
   this.name = TypeName;
   var fields = {};
 
-  _lodash["default"].each(attributes, function (attr, key) {
+  _lodash["default"].each(rawAttributes, function (attr, key) {
     var type = (0, _getFieldType.getFieldTypeForObject)(TypeName, attr);
 
     if (!type) {

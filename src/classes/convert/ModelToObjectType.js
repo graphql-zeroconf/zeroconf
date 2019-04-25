@@ -5,14 +5,14 @@ import { getFieldTypeForObject } from '../../libs/getFieldType';
 class ModelToObjectType {
   constructor(model) {
     const {
-      attributes,
+      rawAttributes,
       convertedName: { TypeName },
     } = model;
 
     this.name = TypeName;
     const fields = {};
 
-    _.each(attributes, (attr, key) => {
+    _.each(rawAttributes, (attr, key) => {
       let type = getFieldTypeForObject(TypeName, attr);
 
       if (!type) {

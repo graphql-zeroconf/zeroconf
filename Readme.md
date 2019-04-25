@@ -101,47 +101,71 @@ As we mentioned before that zeroconf contains node sequelize. You can use other 
 Sequlize Doc: [http://docs.sequelizejs.com/manual/querying.html#operators-aliases](http://docs.sequelizejs.com/manual/querying.html#operators-aliases)
 
 ```javascript
-
 // The default contained operatorsAliases.
 
 const operatorsAliases = {
-  $eq: Op.eq,
-  $ne: Op.ne,
-  $gte: Op.gte,
-  $gt: Op.gt,
-  $lte: Op.lte,
-  $lt: Op.lt,
-  $not: Op.not,
-  $in: Op.in,
-  $notIn: Op.notIn,
-  $is: Op.is,
-  $like: Op.like,
-  $notLike: Op.notLike,
-  $iLike: Op.iLike,
-  $notILike: Op.notILike,
-  $regexp: Op.regexp,
-  $notRegexp: Op.notRegexp,
-  $iRegexp: Op.iRegexp,
-  $notIRegexp: Op.notIRegexp,
-  $between: Op.between,
-  $notBetween: Op.notBetween,
-  $overlap: Op.overlap,
-  $contains: Op.contains,
-  $contained: Op.contained,
-  $adjacent: Op.adjacent,
-  $strictLeft: Op.strictLeft,
-  $strictRight: Op.strictRight,
-  $noExtendRight: Op.noExtendRight,
-  $noExtendLeft: Op.noExtendLeft,
-  $and: Op.and,
-  $or: Op.or,
-  $any: Op.any,
-  $all: Op.all,
-  $values: Op.values,
-  $col: Op.col
+  eq: Op.eq,
+  ne: Op.ne,
+  gte: Op.gte,
+  gt: Op.gt,
+  lte: Op.lte,
+  lt: Op.lt,
+  not: Op.not,
+  in: Op.in,
+  notIn: Op.notIn,
+  is: Op.is,
+  like: Op.like,
+  notLike: Op.notLike,
+  iLike: Op.iLike,
+  notILike: Op.notILike,
+  regexp: Op.regexp,
+  notRegexp: Op.notRegexp,
+  iRegexp: Op.iRegexp,
+  notIRegexp: Op.notIRegexp,
+  between: Op.between,
+  notBetween: Op.notBetween,
+  overlap: Op.overlap,
+  contains: Op.contains,
+  contained: Op.contained,
+  adjacent: Op.adjacent,
+  strictLeft: Op.strictLeft,
+  strictRight: Op.strictRight,
+  noExtendRight: Op.noExtendRight,
+  noExtendLeft: Op.noExtendLeft,
+  and: Op.and,
+  or: Op.or,
+  any: Op.any,
+  all: Op.all,
+  values: Op.values,
+  col: Op.col
 };
 ```
 
+Sequelize deprecated this operatorsAliases option. If you don't want to use operatorsAliases for security reasons. You can turn off the option.
+Please open ```.sequelize.cfg.js``` in project root.
+
+```javascript
+module.exports = {
+  database: process.env.MYSQL_DATABASE,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  option: {
+    operatorsAliases: false, // <-- Add: turn off the alias on where clauses
+    host: process.env.MYSQL_HOST,
+    dialect: 'mysql',
+    port: process.env.MYSQL_PORT,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+    additional: {
+      timestamps: false
+    },
+  },
+};
+```
 ### Child Relations
 
 If table has the column id and it has foreign key which refers to the other tables.

@@ -11,13 +11,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var ModelToOrderInputType = function ModelToOrderInputType(model) {
   _classCallCheck(this, ModelToOrderInputType);
 
-  var attributes = model.attributes,
+  var rawAttributes = model.rawAttributes,
       TypeName = model.convertedName.TypeName;
   this.type = 'input';
   this.name = "".concat(TypeName, "OrderInput");
   var fields = {};
 
-  _lodash["default"].each(attributes, function (attr, key) {
+  _lodash["default"].each(rawAttributes, function (attr, key) {
     fields[attr.fieldName] = {
       type: (0, _getFieldType.getFieldTypeForOrder)(TypeName, attr)
     };

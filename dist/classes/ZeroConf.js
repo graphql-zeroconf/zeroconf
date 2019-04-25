@@ -135,10 +135,10 @@ function () {
   _createClass(ZeroConf, [{
     key: "composeEnumType",
     value: function composeEnumType(model) {
-      var attributes = model.attributes,
+      var rawAttributes = model.rawAttributes,
           TypeName = model.convertedName.TypeName;
 
-      _lodash["default"].each(attributes, function (attr, key) {
+      _lodash["default"].each(rawAttributes, function (attr, key) {
         var dataType = attr.type.constructor.name;
 
         if (dataType !== 'ENUM') {
