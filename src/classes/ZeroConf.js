@@ -73,6 +73,7 @@ const operatorsAliases = {
 class ZeroConf {
   constructor(config) {
     this.hooks = {};
+    this.queryExtends = [];
     this.models = {};
     this.graphiql = true;
 
@@ -168,8 +169,11 @@ class ZeroConf {
       return;
     }
 
-    this.queryExtends = await loader(this.extendsPath);
-    generator(this, 'QueryExtends');
+    const queryExtends = await loader(this.extendsPath);
+    this.queryExtends = [
+      ...this.queryExtends,
+      ...queryExtends
+    ]
   }
 
   async initTypes() {
@@ -181,6 +185,32 @@ class ZeroConf {
     types.map((type) => {
       createType(type);
     });
+  }
+
+  async use(module) {
+
+    if(module.hooks) {
+      module.hooks.map((type) => {
+        for (const {
+          type, name, when, hook,
+        } of module.hooks) {
+          _.set(this.hooks, `${type}.${name}.${when}`, hook);
+        }
+      });
+    }
+
+    if(module.types) {
+      module.types.map((type) => {
+        createType(type);
+      });
+    }
+
+    if(module.extends) {
+      this.queryExtends = [
+        ...this.queryExtends,
+        ...module.extends
+      ]
+    }
   }
 
   async configuration() {
@@ -200,6 +230,8 @@ class ZeroConf {
     generator(this, 'Children');
 
     await this.initExtends();
+
+    generator(this, 'QueryExtends');
 
     this.typeDefs = getTypeDefs();
     this.resolvers = getResolvers();

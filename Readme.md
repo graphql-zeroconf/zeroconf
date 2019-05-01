@@ -337,7 +337,7 @@ module.exports = {
         },
       });
 
-      return dataLoader.groupMapping(result, values, targetKey, isFindOne);
+      return dataLoader.groupBy(result, values, targetKey, isFindOne);
     });
 
     return loader.load(sourceVal);

@@ -8,7 +8,7 @@ var _ = require('lodash');
 
 var DataLoader = require('dataloader');
 
-var groupMapping = function groupMapping(result, ids, groupKey, isOne) {
+var groupBy = function groupBy(result, ids, groupKey, isOne) {
   var grouped = _.groupBy(result, groupKey);
 
   var data = ids.map(function (id) {
@@ -60,5 +60,5 @@ var query = function query(context, path, callback) {
 
 module.exports = {
   query: query,
-  groupMapping: groupMapping
+  groupBy: groupBy
 };

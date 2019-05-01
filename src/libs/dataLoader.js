@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const DataLoader = require('dataloader');
 
-const groupMapping = (result, ids, groupKey, isOne) => {
+const groupBy = (result, ids, groupKey, isOne) => {
   const grouped = _.groupBy(result, groupKey);
   const data = ids.map(id => (isOne ? _.get(grouped, `${id}.[0]`, null) : _.get(grouped, `${id}`, [])));
   return data;
@@ -23,5 +23,5 @@ const query = (context, path, callback) => {
 
 module.exports = {
   query,
-  groupMapping,
+  groupBy,
 };
