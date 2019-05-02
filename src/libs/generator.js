@@ -201,7 +201,7 @@ const generateChildren = (zeroConf) => {
               },
             });
 
-            return dataLoader.groupMapping(result, ids, targetKey, true);
+            return dataLoader.groupBy(result, ids, targetKey, true);
           });
 
           return loader.load(parent[sourceKey]);
@@ -223,7 +223,7 @@ const generateChildren = (zeroConf) => {
               },
             });
 
-            return dataLoader.groupMapping(result, ids, targetKey, false);
+            return dataLoader.groupBy(result, ids, targetKey, false);
           });
 
           return loader.load(parent[sourceKey]);

@@ -216,7 +216,7 @@ var generateChildren = function generateChildren(zeroConf) {
 
                               case 3:
                                 result = _context.sent;
-                                return _context.abrupt("return", _dataLoader["default"].groupMapping(result, ids, targetKey, true));
+                                return _context.abrupt("return", _dataLoader["default"].groupBy(result, ids, targetKey, true));
 
                               case 5:
                               case "end":
@@ -280,7 +280,7 @@ var generateChildren = function generateChildren(zeroConf) {
 
                               case 3:
                                 result = _context3.sent;
-                                return _context3.abrupt("return", _dataLoader["default"].groupMapping(result, ids, targetKey, false));
+                                return _context3.abrupt("return", _dataLoader["default"].groupBy(result, ids, targetKey, false));
 
                               case 5:
                               case "end":
