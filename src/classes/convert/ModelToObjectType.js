@@ -25,7 +25,7 @@ class ModelToObjectType {
 
       fields[attr.fieldName] = {
         type,
-        description: attr.comment
+        description: attr.comment || ''
       };
     });
 
