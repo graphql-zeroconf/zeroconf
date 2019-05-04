@@ -28,7 +28,8 @@ var ModelToObjectType = function ModelToObjectType(model) {
     }
 
     fields[attr.fieldName] = {
-      type: type
+      type: type,
+      description: attr.comment
     };
   });
 
