@@ -50,6 +50,7 @@ export const getTypeDefs = () => {
     };
 
     if (obj.description) {
+      console.log(obj.description);
       defs += `"""\n${obj.description.replace(/\n/g, "\n")}\n"""\n`;
     }
 
@@ -99,7 +100,7 @@ export const getTypeDefs = () => {
         fieldArgs = `(\n${tmp.join("\n ")}\n\t)`;
       }
 
-      if (description) {
+      if (description && typeof description === "string") {
         defs += `"""\n${description.replace(/\n/g, "\n")}\n"""\n`;
       }
 

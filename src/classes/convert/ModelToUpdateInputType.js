@@ -35,6 +35,7 @@ class ModelToUpdateInputType {
 
       fields[attr.fieldName] = {
         type,
+        description: attr.comment
       };
     });
 

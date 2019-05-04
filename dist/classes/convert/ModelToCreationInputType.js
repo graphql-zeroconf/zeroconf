@@ -40,7 +40,8 @@ var ModelToCreationInputType = function ModelToCreationInputType(model) {
     }
 
     fields[attr.fieldName] = {
-      type: type
+      type: type,
+      description: attr.comment
     };
   });
 

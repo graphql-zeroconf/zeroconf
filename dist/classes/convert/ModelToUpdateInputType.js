@@ -40,7 +40,8 @@ var ModelToUpdateInputType = function ModelToUpdateInputType(model) {
     }
 
     fields[attr.fieldName] = {
-      type: type
+      type: type,
+      description: attr.comment
     };
   });
 

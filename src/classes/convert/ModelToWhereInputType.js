@@ -31,6 +31,7 @@ class ModelToWhereInputType {
 
       fields[attr.fieldName] = {
         type,
+        description: attr.comment
       };
     });
 

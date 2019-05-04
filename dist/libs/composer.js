@@ -85,6 +85,7 @@ var getTypeDefs = function getTypeDefs() {
     var fields = _objectSpread({}, obj.fields, extendFields[name]);
 
     if (obj.description) {
+      console.log(obj.description);
       defs += "\"\"\"\n".concat(obj.description.replace(/\n/g, "\n"), "\n\"\"\"\n");
     }
 
@@ -147,7 +148,7 @@ var getTypeDefs = function getTypeDefs() {
         fieldArgs = "(\n".concat(tmp.join("\n "), "\n\t)");
       }
 
-      if (description) {
+      if (description && typeof description === "string") {
         defs += "\"\"\"\n".concat(description.replace(/\n/g, "\n"), "\n\"\"\"\n");
       }
 

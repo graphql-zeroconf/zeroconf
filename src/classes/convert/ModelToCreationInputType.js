@@ -35,6 +35,7 @@ class ModelToCreationInputType {
 
       fields[attr.fieldName] = {
         type,
+        description: attr.comment
       };
     });
 

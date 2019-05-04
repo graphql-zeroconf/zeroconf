@@ -19,7 +19,8 @@ var ModelToOrderInputType = function ModelToOrderInputType(model) {
 
   _lodash["default"].each(rawAttributes, function (attr, key) {
     fields[attr.fieldName] = {
-      type: (0, _getFieldType.getFieldTypeForOrder)(TypeName, attr)
+      type: (0, _getFieldType.getFieldTypeForOrder)(TypeName, attr),
+      description: attr.comment
     };
   });
 

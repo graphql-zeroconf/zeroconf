@@ -36,7 +36,8 @@ var ModelToWhereInputType = function ModelToWhereInputType(model) {
     }
 
     fields[attr.fieldName] = {
-      type: type
+      type: type,
+      description: attr.comment
     };
   });
 

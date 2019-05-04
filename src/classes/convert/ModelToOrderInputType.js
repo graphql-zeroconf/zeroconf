@@ -16,6 +16,7 @@ class ModelToOrderInputType {
     _.each(rawAttributes, (attr, key) => {
       fields[attr.fieldName] = {
         type: getFieldTypeForOrder(TypeName, attr),
+        description: attr.comment
       };
     });
 
