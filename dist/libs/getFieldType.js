@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,8 +10,6 @@ exports["default"] = exports.getFieldTypeForOrder = exports.getFieldTypeForInput
 var _camelcase = _interopRequireDefault(require("camelcase"));
 
 var _isEnumType = _interopRequireDefault(require("./isEnumType"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var getFieldType = function getFieldType(isInput, TypeName, attr) {
   var type = null;

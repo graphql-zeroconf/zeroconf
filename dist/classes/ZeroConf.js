@@ -1,5 +1,21 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
 var _lodash = _interopRequireDefault(require("lodash"));
 
 var _path = _interopRequireDefault(require("path"));
@@ -34,39 +50,8 @@ var _ModelNameToTypeName = _interopRequireDefault(require("./convert/ModelNameTo
 
 var _FieldToEnumType = _interopRequireDefault(require("./convert/FieldToEnumType"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var models = require(_path["default"].resolve('models'));
+/* eslint-disable no-debugger */
+var models = require(_path["default"].resolve("models"));
 
 var Op = _sequelize["default"].Op;
 var operatorsAliases = {
@@ -110,8 +95,7 @@ var ZeroConf =
 /*#__PURE__*/
 function () {
   function ZeroConf(config) {
-    _classCallCheck(this, ZeroConf);
-
+    (0, _classCallCheck2["default"])(this, ZeroConf);
     this.hooks = {};
     this.queryExtends = [];
     this.models = {};
@@ -136,12 +120,12 @@ function () {
     this.pubSub = new _graphqlSubscriptions.PubSub();
 
     if (config.withApollo !== true) {
-      (0, _composer.createScalarType)('Upload');
-      (0, _composer.addResolver)('Upload', _UploadType["default"]);
+      (0, _composer.createScalarType)("Upload");
+      (0, _composer.addResolver)("Upload", _UploadType["default"]);
     }
   }
 
-  _createClass(ZeroConf, [{
+  (0, _createClass2["default"])(ZeroConf, [{
     key: "composeEnumType",
     value: function composeEnumType(model) {
       var rawAttributes = model.rawAttributes,
@@ -150,7 +134,7 @@ function () {
       _lodash["default"].each(rawAttributes, function (attr, key) {
         var dataType = attr.type.constructor.name;
 
-        if (dataType !== 'ENUM') {
+        if (dataType !== "ENUM") {
           return;
         }
 
@@ -179,23 +163,23 @@ function () {
   }, {
     key: "generateModel",
     value: function () {
-      var _generateModel = _asyncToGenerator(
+      var _generateModel = (0, _asyncToGenerator2["default"])(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
+      _regenerator["default"].mark(function _callee() {
         var _this2 = this;
 
         var _this$sequelizeConfig, database, user, password, option;
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _this$sequelizeConfig = this.sequelizeConfig, database = _this$sequelizeConfig.database, user = _this$sequelizeConfig.user, password = _this$sequelizeConfig.password, option = _this$sequelizeConfig.option;
-                this.sequelize = new _sequelize["default"](database, user, password, _objectSpread({
+                this.sequelize = new _sequelize["default"](database, user, password, (0, _objectSpread2["default"])({
                   operatorsAliases: operatorsAliases
                 }, option));
                 Object.entries(models).forEach(function (_ref) {
-                  var _ref2 = _slicedToArray(_ref, 2),
+                  var _ref2 = (0, _slicedToArray2["default"])(_ref, 2),
                       modelName = _ref2[0],
                       definition = _ref2[1];
 
@@ -231,12 +215,12 @@ function () {
   }, {
     key: "initHooks",
     value: function () {
-      var _initHooks = _asyncToGenerator(
+      var _initHooks = (0, _asyncToGenerator2["default"])(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
+      _regenerator["default"].mark(function _callee2() {
         var hookDefs, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _step$value, type, name, when, hook;
 
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -248,15 +232,29 @@ function () {
                 return _context2.abrupt("return");
 
               case 2:
-                _context2.next = 4;
+                hookDefs = null;
+
+                if (!(typeof this.hooksPath === "string")) {
+                  _context2.next = 9;
+                  break;
+                }
+
+                _context2.next = 6;
                 return (0, _loader["default"])(this.hooksPath);
 
-              case 4:
+              case 6:
                 hookDefs = _context2.sent;
+                _context2.next = 10;
+                break;
+
+              case 9:
+                hookDefs = this.hooksPath;
+
+              case 10:
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context2.prev = 8;
+                _context2.prev = 13;
 
                 for (_iterator = hookDefs[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   _step$value = _step.value, type = _step$value.type, name = _step$value.name, when = _step$value.when, hook = _step$value.hook;
@@ -264,45 +262,45 @@ function () {
                   _lodash["default"].set(this.hooks, "".concat(type, ".").concat(name, ".").concat(when), hook);
                 }
 
-                _context2.next = 16;
+                _context2.next = 21;
                 break;
 
-              case 12:
-                _context2.prev = 12;
-                _context2.t0 = _context2["catch"](8);
+              case 17:
+                _context2.prev = 17;
+                _context2.t0 = _context2["catch"](13);
                 _didIteratorError = true;
                 _iteratorError = _context2.t0;
 
-              case 16:
-                _context2.prev = 16;
-                _context2.prev = 17;
+              case 21:
+                _context2.prev = 21;
+                _context2.prev = 22;
 
                 if (!_iteratorNormalCompletion && _iterator["return"] != null) {
                   _iterator["return"]();
                 }
 
-              case 19:
-                _context2.prev = 19;
+              case 24:
+                _context2.prev = 24;
 
                 if (!_didIteratorError) {
-                  _context2.next = 22;
+                  _context2.next = 27;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 22:
-                return _context2.finish(19);
+              case 27:
+                return _context2.finish(24);
 
-              case 23:
-                return _context2.finish(16);
+              case 28:
+                return _context2.finish(21);
 
-              case 24:
+              case 29:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[8, 12, 16, 24], [17,, 19, 23]]);
+        }, _callee2, this, [[13, 17, 21, 29], [22,, 24, 28]]);
       }));
 
       function initHooks() {
@@ -314,11 +312,11 @@ function () {
   }, {
     key: "initExtends",
     value: function () {
-      var _initExtends = _asyncToGenerator(
+      var _initExtends = (0, _asyncToGenerator2["default"])(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
+      _regenerator["default"].mark(function _callee3() {
         var queryExtends;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -330,14 +328,28 @@ function () {
                 return _context3.abrupt("return");
 
               case 2:
-                _context3.next = 4;
+                queryExtends = null;
+
+                if (!(typeof this.extendsPath === "string")) {
+                  _context3.next = 9;
+                  break;
+                }
+
+                _context3.next = 6;
                 return (0, _loader["default"])(this.extendsPath);
 
-              case 4:
-                queryExtends = _context3.sent;
-                this.queryExtends = [].concat(_toConsumableArray(this.queryExtends), _toConsumableArray(queryExtends));
-
               case 6:
+                queryExtends = _context3.sent;
+                _context3.next = 10;
+                break;
+
+              case 9:
+                queryExtends = this.extendsPath;
+
+              case 10:
+                this.queryExtends = [].concat((0, _toConsumableArray2["default"])(this.queryExtends), (0, _toConsumableArray2["default"])(queryExtends));
+
+              case 11:
               case "end":
                 return _context3.stop();
             }
@@ -354,11 +366,11 @@ function () {
   }, {
     key: "initTypes",
     value: function () {
-      var _initTypes = _asyncToGenerator(
+      var _initTypes = (0, _asyncToGenerator2["default"])(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4() {
+      _regenerator["default"].mark(function _callee4() {
         var types;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return _regenerator["default"].wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
@@ -370,16 +382,30 @@ function () {
                 return _context4.abrupt("return");
 
               case 2:
-                _context4.next = 4;
+                types = null;
+
+                if (!(typeof this.typesPath === "string")) {
+                  _context4.next = 9;
+                  break;
+                }
+
+                _context4.next = 6;
                 return (0, _loader["default"])(this.typesPath);
 
-              case 4:
+              case 6:
                 types = _context4.sent;
+                _context4.next = 10;
+                break;
+
+              case 9:
+                types = this.typesPath;
+
+              case 10:
                 types.map(function (type) {
                   (0, _composer.createType)(type);
                 });
 
-              case 6:
+              case 11:
               case "end":
                 return _context4.stop();
             }
@@ -396,12 +422,12 @@ function () {
   }, {
     key: "use",
     value: function () {
-      var _use = _asyncToGenerator(
+      var _use = (0, _asyncToGenerator2["default"])(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(module) {
+      _regenerator["default"].mark(function _callee5(module) {
         var _this4 = this;
 
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return _regenerator["default"].wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
@@ -445,7 +471,7 @@ function () {
                 }
 
                 if (module["extends"]) {
-                  this.queryExtends = [].concat(_toConsumableArray(this.queryExtends), _toConsumableArray(module["extends"]));
+                  this.queryExtends = [].concat((0, _toConsumableArray2["default"])(this.queryExtends), (0, _toConsumableArray2["default"])(module["extends"]));
                 }
 
               case 3:
@@ -465,10 +491,10 @@ function () {
   }, {
     key: "configuration",
     value: function () {
-      var _configuration = _asyncToGenerator(
+      var _configuration = (0, _asyncToGenerator2["default"])(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      _regenerator["default"].mark(function _callee6() {
+        return _regenerator["default"].wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
@@ -477,7 +503,7 @@ function () {
                   break;
                 }
 
-                throw new Error('node sequelize configutration needed');
+                throw new Error("node sequelize configutration needed");
 
               case 2:
                 _context6.next = 4;
@@ -493,15 +519,15 @@ function () {
 
               case 8:
                 this.composeGraphQLObject();
-                (0, _generator["default"])(this, 'Query');
-                (0, _generator["default"])(this, 'Subscription');
-                (0, _generator["default"])(this, 'Mutation');
-                (0, _generator["default"])(this, 'Children');
+                (0, _generator["default"])(this, "Query");
+                (0, _generator["default"])(this, "Subscription");
+                (0, _generator["default"])(this, "Mutation");
+                (0, _generator["default"])(this, "Children");
                 _context6.next = 15;
                 return this.initExtends();
 
               case 15:
-                (0, _generator["default"])(this, 'QueryExtends');
+                (0, _generator["default"])(this, "QueryExtends");
                 this.typeDefs = (0, _composer.getTypeDefs)();
                 this.resolvers = (0, _composer.getResolvers)();
 
@@ -520,7 +546,6 @@ function () {
       return configuration;
     }()
   }]);
-
   return ZeroConf;
 }();
 

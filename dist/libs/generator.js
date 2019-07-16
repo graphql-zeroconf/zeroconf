@@ -1,9 +1,19 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
@@ -17,16 +27,9 @@ var _composer = require("./composer");
 
 var _dataLoader = _interopRequireDefault(require("./dataLoader"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+/* eslint-disable no-debugger */
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* eslint-disable no-loop-func */
 var Op = _sequelize["default"].Op;
 
 var getListQueryFields = function getListQueryFields(zeroConf, type, fieldName, model) {
@@ -158,8 +161,7 @@ var getMutationFields = function getMutationFields(zeroConf) {
 };
 
 var generateMutation = function generateMutation(zeroConf) {
-  var fields = _objectSpread({}, getMutationFields(zeroConf));
-
+  var fields = (0, _objectSpread2["default"])({}, getMutationFields(zeroConf));
   (0, _composer.addFields)('Mutation', fields);
 };
 
@@ -186,22 +188,22 @@ var generateChildren = function generateChildren(zeroConf) {
       var childPath = "".concat(sourceModel.convertedName.TypeName, ".").concat(targetModel.convertedName.typeName);
       (0, _composer.addResolver)(childPath, {
         resolve: function () {
-          var _resolve = _asyncToGenerator(
+          var _resolve = (0, _asyncToGenerator2["default"])(
           /*#__PURE__*/
-          regeneratorRuntime.mark(function _callee2(parent, args, context, info) {
+          _regenerator["default"].mark(function _callee2(parent, args, context, info) {
             var loader;
-            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            return _regenerator["default"].wrap(function _callee2$(_context2) {
               while (1) {
                 switch (_context2.prev = _context2.next) {
                   case 0:
                     loader = _dataLoader["default"].query(context, childPath,
                     /*#__PURE__*/
                     function () {
-                      var _ref = _asyncToGenerator(
+                      var _ref = (0, _asyncToGenerator2["default"])(
                       /*#__PURE__*/
-                      regeneratorRuntime.mark(function _callee(ids) {
+                      _regenerator["default"].mark(function _callee(ids) {
                         var result;
-                        return regeneratorRuntime.wrap(function _callee$(_context) {
+                        return _regenerator["default"].wrap(function _callee$(_context) {
                           while (1) {
                             switch (_context.prev = _context.next) {
                               case 0:
@@ -211,7 +213,7 @@ var generateChildren = function generateChildren(zeroConf) {
                                 });
                                 _context.next = 3;
                                 return targetModel.findAll({
-                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op["in"], ids))
+                                  where: (0, _defineProperty2["default"])({}, targetKey, (0, _defineProperty2["default"])({}, Op["in"], ids))
                                 });
 
                               case 3:
@@ -250,22 +252,22 @@ var generateChildren = function generateChildren(zeroConf) {
       var childrenPath = "".concat(sourceModel.convertedName.TypeName, ".").concat(targetModel.convertedName.typeNames);
       (0, _composer.addResolver)(childrenPath, {
         resolve: function () {
-          var _resolve2 = _asyncToGenerator(
+          var _resolve2 = (0, _asyncToGenerator2["default"])(
           /*#__PURE__*/
-          regeneratorRuntime.mark(function _callee4(parent, args, context, info) {
+          _regenerator["default"].mark(function _callee4(parent, args, context, info) {
             var loader;
-            return regeneratorRuntime.wrap(function _callee4$(_context4) {
+            return _regenerator["default"].wrap(function _callee4$(_context4) {
               while (1) {
                 switch (_context4.prev = _context4.next) {
                   case 0:
                     loader = _dataLoader["default"].query(context, childrenPath,
                     /*#__PURE__*/
                     function () {
-                      var _ref2 = _asyncToGenerator(
+                      var _ref2 = (0, _asyncToGenerator2["default"])(
                       /*#__PURE__*/
-                      regeneratorRuntime.mark(function _callee3(ids) {
+                      _regenerator["default"].mark(function _callee3(ids) {
                         var result;
-                        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                        return _regenerator["default"].wrap(function _callee3$(_context3) {
                           while (1) {
                             switch (_context3.prev = _context3.next) {
                               case 0:
@@ -275,7 +277,7 @@ var generateChildren = function generateChildren(zeroConf) {
                                 });
                                 _context3.next = 3;
                                 return targetModel.findAll({
-                                  where: _defineProperty({}, targetKey, _defineProperty({}, Op["in"], ids))
+                                  where: (0, _defineProperty2["default"])({}, targetKey, (0, _defineProperty2["default"])({}, Op["in"], ids))
                                 });
 
                               case 3:
@@ -311,9 +313,9 @@ var generateChildren = function generateChildren(zeroConf) {
           return resolve;
         }()
       });
-      (0, _composer.addFields)(sourceModel.convertedName.TypeName, (_addFields = {}, _defineProperty(_addFields, targetModel.convertedName.typeName, {
+      (0, _composer.addFields)(sourceModel.convertedName.TypeName, (_addFields = {}, (0, _defineProperty2["default"])(_addFields, targetModel.convertedName.typeName, {
         type: targetModel.convertedName.TypeName
-      }), _defineProperty(_addFields, targetModel.convertedName.typeNames, {
+      }), (0, _defineProperty2["default"])(_addFields, targetModel.convertedName.typeNames, {
         type: "[".concat(targetModel.convertedName.TypeName, "]")
       }), _addFields));
     });
@@ -360,11 +362,11 @@ var generateQueryExtends = function generateQueryExtends(zeroConf) {
       var path = "".concat(type, ".").concat(field);
       (0, _composer.addResolver)(path, {
         resolve: function () {
-          var _resolve3 = _asyncToGenerator(
+          var _resolve3 = (0, _asyncToGenerator2["default"])(
           /*#__PURE__*/
-          regeneratorRuntime.mark(function _callee5(parent, resolverArgs, context, info) {
+          _regenerator["default"].mark(function _callee5(parent, resolverArgs, context, info) {
             var beforeHook, afterHook, newArgs, result;
-            return regeneratorRuntime.wrap(function _callee5$(_context5) {
+            return _regenerator["default"].wrap(function _callee5$(_context5) {
               while (1) {
                 switch (_context5.prev = _context5.next) {
                   case 0:
@@ -421,7 +423,7 @@ var generateQueryExtends = function generateQueryExtends(zeroConf) {
           return resolve;
         }()
       });
-      (0, _composer.addFields)(type, _defineProperty({}, field, {
+      (0, _composer.addFields)(type, (0, _defineProperty2["default"])({}, field, {
         args: args,
         type: returnType
       }));

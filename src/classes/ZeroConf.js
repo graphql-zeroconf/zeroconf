@@ -1,35 +1,35 @@
 /* eslint-disable no-debugger */
-import _ from 'lodash';
-import path from 'path';
+import _ from "lodash";
+import path from "path";
 
-import Sequelize from 'sequelize';
-import { PubSub } from 'graphql-subscriptions';
+import Sequelize from "sequelize";
+import { PubSub } from "graphql-subscriptions";
 
-import acl from '../libs/acl';
-import loader from '../libs/loader';
-import generator from '../libs/generator';
-import { addResolver, createScalarType } from '../libs/composer';
-import isEnumType from '../libs/isEnumType';
-import UploadType from '../types/UploadType';
+import acl from "../libs/acl";
+import loader from "../libs/loader";
+import generator from "../libs/generator";
+import { addResolver, createScalarType } from "../libs/composer";
+import isEnumType from "../libs/isEnumType";
+import UploadType from "../types/UploadType";
 
 import {
   createType,
   createInputType,
   createEnumType,
   getTypeDefs,
-  getResolvers,
-} from '../libs/composer';
+  getResolvers
+} from "../libs/composer";
 
-import ModelToObjectType from './convert/ModelToObjectType';
-import ModelToWhereInputType from './convert/ModelToWhereInputType';
-import ModelToCreationInputType from './convert/ModelToCreationInputType';
-import ModelToUpdateInputType from './convert/ModelToUpdateInputType';
-import ModelToOrderInputType from './convert/ModelToOrderInputType';
+import ModelToObjectType from "./convert/ModelToObjectType";
+import ModelToWhereInputType from "./convert/ModelToWhereInputType";
+import ModelToCreationInputType from "./convert/ModelToCreationInputType";
+import ModelToUpdateInputType from "./convert/ModelToUpdateInputType";
+import ModelToOrderInputType from "./convert/ModelToOrderInputType";
 
-import ModelNameToTypeName from './convert/ModelNameToTypeName';
-import FieldToEnumType from './convert/FieldToEnumType';
+import ModelNameToTypeName from "./convert/ModelNameToTypeName";
+import FieldToEnumType from "./convert/FieldToEnumType";
 
-const models = require(path.resolve('models'));
+const models = require(path.resolve("models"));
 
 const { Op } = Sequelize;
 
@@ -67,7 +67,7 @@ const operatorsAliases = {
   any: Op.any,
   all: Op.all,
   values: Op.values,
-  col: Op.col,
+  col: Op.col
 };
 
 class ZeroConf {
@@ -94,20 +94,20 @@ class ZeroConf {
     this.pubSub = new PubSub();
 
     if (config.withApollo !== true) {
-      createScalarType('Upload');
-      addResolver('Upload', UploadType);
+      createScalarType("Upload");
+      addResolver("Upload", UploadType);
     }
   }
 
   composeEnumType(model) {
     const {
       rawAttributes,
-      convertedName: { TypeName },
+      convertedName: { TypeName }
     } = model;
 
     _.each(rawAttributes, (attr, key) => {
       const dataType = attr.type.constructor.name;
-      if (dataType !== 'ENUM') {
+      if (dataType !== "ENUM") {
         return;
       }
 
@@ -120,7 +120,7 @@ class ZeroConf {
   }
 
   composeGraphQLObject() {
-    Object.values(this.models).forEach((model) => {
+    Object.values(this.models).forEach(model => {
       this.composeEnumType(model);
 
       createType(new ModelToObjectType(model));
@@ -132,12 +132,10 @@ class ZeroConf {
   }
 
   async generateModel() {
-    const {
-      database, user, password, option,
-    } = this.sequelizeConfig;
+    const { database, user, password, option } = this.sequelizeConfig;
     this.sequelize = new Sequelize(database, user, password, {
       operatorsAliases,
-      ...option,
+      ...option
     });
 
     Object.entries(models).forEach(([modelName, definition]) => {
@@ -156,10 +154,14 @@ class ZeroConf {
       return;
     }
 
-    const hookDefs = await loader(this.hooksPath);
-    for (const {
-      type, name, when, hook,
-    } of hookDefs) {
+    let hookDefs = null;
+    if (typeof this.hooksPath === "string") {
+      hookDefs = await loader(this.hooksPath);
+    } else {
+      hookDefs = this.hooksPath;
+    }
+
+    for (const { type, name, when, hook } of hookDefs) {
       _.set(this.hooks, `${type}.${name}.${when}`, hook);
     }
   }
@@ -169,11 +171,14 @@ class ZeroConf {
       return;
     }
 
-    const queryExtends = await loader(this.extendsPath);
-    this.queryExtends = [
-      ...this.queryExtends,
-      ...queryExtends
-    ]
+    let queryExtends = null;
+    if (typeof this.extendsPath === "string") {
+      queryExtends = await loader(this.extendsPath);
+    } else {
+      queryExtends = this.extendsPath;
+    }
+
+    this.queryExtends = [...this.queryExtends, ...queryExtends];
   }
 
   async initTypes() {
@@ -181,41 +186,41 @@ class ZeroConf {
       return;
     }
 
-    const types = await loader(this.typesPath);
-    types.map((type) => {
+    let types = null;
+    if (typeof this.typesPath === "string") {
+      types = await loader(this.typesPath);
+    } else {
+      types = this.typesPath;
+    }
+
+    types.map(type => {
       createType(type);
     });
   }
 
   async use(module) {
-
-    if(module.hooks) {
-      module.hooks.map((type) => {
-        for (const {
-          type, name, when, hook,
-        } of module.hooks) {
+    if (module.hooks) {
+      module.hooks.map(type => {
+        for (const { type, name, when, hook } of module.hooks) {
           _.set(this.hooks, `${type}.${name}.${when}`, hook);
         }
       });
     }
 
-    if(module.types) {
-      module.types.map((type) => {
+    if (module.types) {
+      module.types.map(type => {
         createType(type);
       });
     }
 
-    if(module.extends) {
-      this.queryExtends = [
-        ...this.queryExtends,
-        ...module.extends
-      ]
+    if (module.extends) {
+      this.queryExtends = [...this.queryExtends, ...module.extends];
     }
   }
 
   async configuration() {
     if (_.isEmpty(this.sequelizeConfig) === true) {
-      throw new Error('node sequelize configutration needed');
+      throw new Error("node sequelize configutration needed");
     }
 
     await this.generateModel();
@@ -224,14 +229,14 @@ class ZeroConf {
 
     this.composeGraphQLObject();
 
-    generator(this, 'Query');
-    generator(this, 'Subscription');
-    generator(this, 'Mutation');
-    generator(this, 'Children');
+    generator(this, "Query");
+    generator(this, "Subscription");
+    generator(this, "Mutation");
+    generator(this, "Children");
 
     await this.initExtends();
 
-    generator(this, 'QueryExtends');
+    generator(this, "QueryExtends");
 
     this.typeDefs = getTypeDefs();
     this.resolvers = getResolvers();

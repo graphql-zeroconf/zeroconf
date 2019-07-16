@@ -1,17 +1,18 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
 var _ = require('lodash');
 
 var OrderType = function OrderType() {
-  _classCallCheck(this, OrderType);
-
+  (0, _classCallCheck2["default"])(this, OrderType);
   this.type = 'enum';
   this.name = 'Order';
   this.values = {
