@@ -39,7 +39,6 @@ var resolvers = {};
 
 var createType = function createType(obj) {
   var name = obj.name;
-  console.log("createType", obj);
   objects[name] = obj;
 };
 
@@ -48,7 +47,6 @@ exports.createType = createType;
 var createInputType = function createInputType(obj) {
   var name = obj.name;
   objects[name] = obj;
-  console.log("createInputType", obj);
 };
 
 exports.createInputType = createInputType;

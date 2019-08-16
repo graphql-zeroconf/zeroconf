@@ -21,14 +21,12 @@ const resolvers = {};
 
 export const createType = obj => {
   const { name } = obj;
-  console.log("createType", obj);
   objects[name] = obj;
 };
 
 export const createInputType = obj => {
   const { name } = obj;
   objects[name] = obj;
-  console.log("createInputType", obj);
 };
 
 export const createEnumType = obj => {
