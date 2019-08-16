@@ -39,6 +39,7 @@ var resolvers = {};
 
 var createType = function createType(obj) {
   var name = obj.name;
+  console.log("createType", obj);
   objects[name] = obj;
 };
 
@@ -47,6 +48,7 @@ exports.createType = createType;
 var createInputType = function createInputType(obj) {
   var name = obj.name;
   objects[name] = obj;
+  console.log("createInputType", obj);
 };
 
 exports.createInputType = createInputType;
@@ -160,7 +162,7 @@ var addFields = function addFields(objectName, fields) {
 exports.addFields = addFields;
 
 var addResolver = function addResolver(path, config) {
-  return _lodash["default"].set(resolvers, path, config);
+  _lodash["default"].set(resolvers, path, config);
 };
 
 exports.addResolver = addResolver;

@@ -11,6 +11,10 @@ class UpdateResolver extends Resolver {
 
     const { input, where } = args;
 
+    if (_.isEmpty(where) === true) {
+      throw new Error("Invalid where syntax");
+    }
+
     if (this.model.options.updatedAt) {
       input[this.model.options.updatedAt] = new Date();
     }

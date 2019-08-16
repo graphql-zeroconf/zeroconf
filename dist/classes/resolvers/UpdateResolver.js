@@ -50,25 +50,33 @@ function (_Resolver) {
                 _this$model$converted = this.model.convertedName, typeName = _this$model$converted.typeName, TypeName = _this$model$converted.TypeName;
                 input = args.input, where = args.where;
 
+                if (!(_.isEmpty(where) === true)) {
+                  _context.next = 4;
+                  break;
+                }
+
+                throw new Error("Invalid where syntax");
+
+              case 4:
                 if (this.model.options.updatedAt) {
                   input[this.model.options.updatedAt] = new Date();
                 }
 
-                _context.next = 5;
+                _context.next = 7;
                 return this.model.update(input, {
                   where: where
                 });
 
-              case 5:
-                _context.next = 7;
+              case 7:
+                _context.next = 9;
                 return this.fetchRow(args);
 
-              case 7:
+              case 9:
                 updatedRow = _context.sent;
                 this.pubSub.publish(TypeName, (0, _defineProperty2["default"])({}, typeName, updatedRow));
                 return _context.abrupt("return", updatedRow);
 
-              case 10:
+              case 12:
               case "end":
                 return _context.stop();
             }

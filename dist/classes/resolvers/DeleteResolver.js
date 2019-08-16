@@ -21,7 +21,9 @@ var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits
 /* eslint-disable no-debugger */
 
 /* eslint-disable no-restricted-syntax */
-var Resolver = require('./Resolver');
+var Resolver = require("./Resolver");
+
+var _ = require("lodash");
 
 var DeleteResolver =
 /*#__PURE__*/
@@ -45,16 +47,25 @@ function (_Resolver) {
             switch (_context.prev = _context.next) {
               case 0:
                 where = args.where;
-                _context.next = 3;
+
+                if (!(_.isEmpty(where) === true)) {
+                  _context.next = 3;
+                  break;
+                }
+
+                throw new Error("Invalid where syntax");
+
+              case 3:
+                _context.next = 5;
                 return this.model.destroy({
                   where: where
                 });
 
-              case 3:
+              case 5:
                 result = _context.sent;
                 return _context.abrupt("return", result);
 
-              case 5:
+              case 7:
               case "end":
                 return _context.stop();
             }

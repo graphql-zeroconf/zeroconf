@@ -225,7 +225,6 @@ class ZeroConf {
 
     await this.generateModel();
     await this.initHooks();
-    await this.initTypes();
 
     this.composeGraphQLObject();
 
@@ -234,6 +233,7 @@ class ZeroConf {
     generator(this, "Mutation");
     generator(this, "Children");
 
+    await this.initTypes();
     await this.initExtends();
 
     generator(this, "QueryExtends");

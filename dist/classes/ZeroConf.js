@@ -514,15 +514,15 @@ function () {
                 return this.initHooks();
 
               case 6:
-                _context6.next = 8;
-                return this.initTypes();
-
-              case 8:
                 this.composeGraphQLObject();
                 (0, _generator["default"])(this, "Query");
                 (0, _generator["default"])(this, "Subscription");
                 (0, _generator["default"])(this, "Mutation");
                 (0, _generator["default"])(this, "Children");
+                _context6.next = 13;
+                return this.initTypes();
+
+              case 13:
                 _context6.next = 15;
                 return this.initExtends();
 

@@ -21,12 +21,14 @@ const resolvers = {};
 
 export const createType = obj => {
   const { name } = obj;
+  console.log("createType", obj);
   objects[name] = obj;
 };
 
 export const createInputType = obj => {
   const { name } = obj;
   objects[name] = obj;
+  console.log("createInputType", obj);
 };
 
 export const createEnumType = obj => {
@@ -119,7 +121,9 @@ export const addFields = (objectName, fields) => {
   });
 };
 
-export const addResolver = (path, config) => _.set(resolvers, path, config);
+export const addResolver = (path, config) => {
+  _.set(resolvers, path, config);
+}
 
 export const getResolvers = () => resolvers;
 
