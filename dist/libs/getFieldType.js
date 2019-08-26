@@ -14,12 +14,15 @@ var _isEnumType = _interopRequireDefault(require("./isEnumType"));
 var getFieldType = function getFieldType(isInput, TypeName, attr) {
   var type = null;
   var isPrimary = attr.primaryKey;
+  var isReference = attr.references ? true : false;
   var dataType = attr.type.constructor.name;
   var FieldName = (0, _camelcase["default"])(attr.fieldName, {
     pascalCase: true
   });
 
   if (isPrimary) {
+    type = 'ID';
+  } else if (isReference) {
     type = 'ID';
   } else if (dataType === 'ENUM') {
     if (isInput) {

@@ -6,10 +6,13 @@ const getFieldType = (isInput, TypeName, attr) => {
   let type = null;
 
   const isPrimary = attr.primaryKey;
+  const isReference = attr.references ? true : false;
   const dataType = attr.type.constructor.name;
   const FieldName = camelCase(attr.fieldName, { pascalCase: true });
 
   if (isPrimary) {
+    type = 'ID';
+  } else if(isReference) {
     type = 'ID';
   } else if (dataType === 'ENUM') {
     if (isInput) {
