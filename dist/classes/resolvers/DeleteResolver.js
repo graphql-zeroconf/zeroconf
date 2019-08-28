@@ -48,7 +48,7 @@ function (_Resolver) {
               case 0:
                 where = args.where;
 
-                if (!(_.isEmpty(where) === true)) {
+                if (!_.isEmpty(where)) {
                   _context.next = 3;
                   break;
                 }

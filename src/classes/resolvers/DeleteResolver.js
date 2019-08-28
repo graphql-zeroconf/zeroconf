@@ -8,7 +8,7 @@ class DeleteResolver extends Resolver {
   async _resolve(parent, args, context, info) {
     const { where } = args;
 
-    if (_.isEmpty(where) === true) {
+    if (_.isEmpty(where)) {
       throw new Error("Invalid where syntax");
     }
 

@@ -2,6 +2,7 @@
 /* eslint-disable no-debugger */
 /* eslint-disable no-restricted-syntax */
 const Resolver = require('./Resolver');
+const _ = require("lodash");
 
 class UpdateResolver extends Resolver {
   async _resolve(parent, args, context, info) {
@@ -11,7 +12,7 @@ class UpdateResolver extends Resolver {
 
     const { input, where } = args;
 
-    if (_.isEmpty(where) === true) {
+    if (_.isEmpty(where)) {
       throw new Error("Invalid where syntax");
     }
 

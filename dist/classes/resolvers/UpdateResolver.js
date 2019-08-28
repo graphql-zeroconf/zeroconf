@@ -25,6 +25,8 @@ var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits
 /* eslint-disable no-restricted-syntax */
 var Resolver = require('./Resolver');
 
+var _ = require("lodash");
+
 var UpdateResolver =
 /*#__PURE__*/
 function (_Resolver) {
@@ -50,7 +52,7 @@ function (_Resolver) {
                 _this$model$converted = this.model.convertedName, typeName = _this$model$converted.typeName, TypeName = _this$model$converted.TypeName;
                 input = args.input, where = args.where;
 
-                if (!(_.isEmpty(where) === true)) {
+                if (!_.isEmpty(where)) {
                   _context.next = 4;
                   break;
                 }
