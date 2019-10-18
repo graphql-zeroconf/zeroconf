@@ -132,7 +132,7 @@ class ZeroConf {
   }
 
   async generateModel() {
-    const { database, user, password, option } = this.sequelizeConfig;
+    const { database, user, password, option, dialectOptions } = this.sequelizeConfig;
     this.sequelize = new Sequelize(database, user, password, {
       operatorsAliases,
       ...option

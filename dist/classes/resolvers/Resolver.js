@@ -78,7 +78,7 @@ function () {
                 }
 
                 _context.next = 16;
-                return _this.afterHook(parent, args, context, info);
+                return _this.afterHook(parent, args, context, info, result);
 
               case 16:
                 return _context.abrupt("return", result);

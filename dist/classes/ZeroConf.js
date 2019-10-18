@@ -168,13 +168,13 @@ function () {
       _regenerator["default"].mark(function _callee() {
         var _this2 = this;
 
-        var _this$sequelizeConfig, database, user, password, option;
+        var _this$sequelizeConfig, database, user, password, option, dialectOptions;
 
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this$sequelizeConfig = this.sequelizeConfig, database = _this$sequelizeConfig.database, user = _this$sequelizeConfig.user, password = _this$sequelizeConfig.password, option = _this$sequelizeConfig.option;
+                _this$sequelizeConfig = this.sequelizeConfig, database = _this$sequelizeConfig.database, user = _this$sequelizeConfig.user, password = _this$sequelizeConfig.password, option = _this$sequelizeConfig.option, dialectOptions = _this$sequelizeConfig.dialectOptions;
                 this.sequelize = new _sequelize["default"](database, user, password, (0, _objectSpread2["default"])({
                   operatorsAliases: operatorsAliases
                 }, option));

@@ -28,7 +28,7 @@ class Resolver {
     const result = await this._resolve(parent, args, context, info);
 
     if (this.afterHook) {
-      await this.afterHook(parent, args, context, info);
+      await this.afterHook(parent, args, context, info, result);
     }
 
     return result;
