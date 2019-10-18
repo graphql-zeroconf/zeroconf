@@ -15,11 +15,7 @@ const getFieldType = (isInput, TypeName, attr) => {
   } else if(isReference) {
     type = 'ID';
   } else if (dataType === 'ENUM') {
-    if (isInput) {
-      type = isEnumType(attr) ? `${TypeName}${FieldName}` : 'String';
-    } else {
-      type = 'String';
-    }
+    type = isEnumType(attr) ? `${TypeName}${FieldName}` : 'String';
   } else if (dataType === 'DATE') {
     type = 'Date';
   } else if (dataType.indexOf('BIGINT') > -1) {

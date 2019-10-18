@@ -21,7 +21,7 @@ const { Op } = Sequelize;
 const getListQueryFields = (zeroConf, type, fieldName, model) => {
   const { hooks, pubSub } = zeroConf;
   const {
-    convertedName: { TypeName },
+    convertedName: { TypeName, typeNames },
   } = model;
   const path = `${type}.${fieldName}`;
 
@@ -41,18 +41,31 @@ const getListQueryFields = (zeroConf, type, fieldName, model) => {
   return {
     type: `[${TypeName}]`,
     args: {
-      start: 'Int',
-      limit: 'Int',
-      order: `${TypeName}OrderInput`,
-      where: 'JSON',
+      start: {
+        type: 'Int',
+        description: "start position"
+      },
+      limit: {
+        type: 'Int',
+        description: "limitation of fetched record"
+      },
+      order: {
+        type: `${TypeName}OrderInput`,
+        description: "order condition"
+      },
+      where: {
+        type: 'JSON',
+        description: "where condition(JSON)"
+      },
     },
+    description: `[Generated] Fetch list of ${typeNames}`
   };
 };
 
 const getRowQueryFields = (zeroConf, type, fieldName, model) => {
   const { hooks, pubSub } = zeroConf;
   const {
-    convertedName: { TypeName },
+    convertedName: { TypeName, typeName },
   } = model;
   const path = `${type}.${fieldName}`;
 
@@ -73,14 +86,22 @@ const getRowQueryFields = (zeroConf, type, fieldName, model) => {
   return {
     type: `${TypeName}`,
     args: {
-      where: `${TypeName}WhereInput!`,
+      where: {
+        type: `${TypeName}WhereInput!`,
+        description: "where condition"
+      },
     },
+    description: `[Generated] Fetch a row of ${typeName}`
   };
 };
 
 const getCountQueryFields = (zeroConf, type, TypeNames, model) => {
   const { hooks, pubSub } = zeroConf;
   const path = `${type}.num${TypeNames}`;
+
+  const {
+    convertedName: { typeNames },
+  } = model;
 
   addResolver(path, {
     resolve: new CountResolver({
@@ -94,8 +115,12 @@ const getCountQueryFields = (zeroConf, type, TypeNames, model) => {
   return {
     type: 'Int!',
     args: {
-      where: 'JSON',
+      where: {
+        type: 'JSON',
+        description: "where condition(JSON)"
+      },
     },
+    description: `[Generated] Fetch count of ${typeNames}`
   };
 };
 
@@ -105,7 +130,7 @@ const getMutationFields = (zeroConf) => {
 
   for (const model of Object.values(models)) {
     const {
-      convertedName: { TypeName },
+      convertedName: { TypeName, typeNames, typeName },
     } = model;
 
     addResolver(`Mutation.create${TypeName}`, {
@@ -119,8 +144,12 @@ const getMutationFields = (zeroConf) => {
 
     fields[`create${TypeName}`] = {
       type: TypeName,
+      description: `[Generated] Create a(an) ${typeName}`,
       args: {
-        input: `${TypeName}CreationInput!`,
+        input: {
+          type: `${TypeName}CreationInput!`,
+          description: "Creation input values",
+        },
       },
     };
 
@@ -135,9 +164,16 @@ const getMutationFields = (zeroConf) => {
 
     fields[`update${TypeName}`] = {
       type: TypeName,
+      description: `[Generated] Update a(an) ${typeName}`,
       args: {
-        where: `${TypeName}WhereInput!`,
-        input: `${TypeName}UpdateInput!`,
+        where: {
+          type: `${TypeName}WhereInput!`,
+          description: "Update where condition",
+        },
+        input: {
+          type: `${TypeName}UpdateInput!`,
+          description: "Update input values",
+        },
       },
     };
 
@@ -152,8 +188,12 @@ const getMutationFields = (zeroConf) => {
 
     fields[`delete${TypeName}`] = {
       type: 'Int',
+      description: `[Generated] Delete a(an) ${typeName}`,
       args: {
-        where: `${TypeName}WhereInput!`,
+        where: {
+          type: `${TypeName}WhereInput!`,
+          description: "Delete where condition",
+        }
       },
     };
   }
@@ -261,7 +301,7 @@ const generateQuery = (zeroConf, type) => {
 const generateQueryExtends = (zeroConf) => {
   const { hooks, queryExtends } = zeroConf;
   for (const {
-    type, field, returnType, args, resolver,
+    type, field, returnType, description, args, resolver,
   } of queryExtends) {
     const path = `${type}.${field}`;
 
@@ -287,6 +327,7 @@ const generateQueryExtends = (zeroConf) => {
     addFields(type, {
       [field]: {
         args,
+        description,
         type: returnType,
       },
     });

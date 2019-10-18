@@ -35,7 +35,9 @@ var Op = _sequelize["default"].Op;
 var getListQueryFields = function getListQueryFields(zeroConf, type, fieldName, model) {
   var hooks = zeroConf.hooks,
       pubSub = zeroConf.pubSub;
-  var TypeName = model.convertedName.TypeName;
+  var _model$convertedName = model.convertedName,
+      TypeName = _model$convertedName.TypeName,
+      typeNames = _model$convertedName.typeNames;
   var path = "".concat(type, ".").concat(fieldName);
   var config = {
     path: path,
@@ -51,18 +53,33 @@ var getListQueryFields = function getListQueryFields(zeroConf, type, fieldName, 
   return {
     type: "[".concat(TypeName, "]"),
     args: {
-      start: 'Int',
-      limit: 'Int',
-      order: "".concat(TypeName, "OrderInput"),
-      where: 'JSON'
-    }
+      start: {
+        type: 'Int',
+        description: "start position"
+      },
+      limit: {
+        type: 'Int',
+        description: "limitation of fetched record"
+      },
+      order: {
+        type: "".concat(TypeName, "OrderInput"),
+        description: "order condition"
+      },
+      where: {
+        type: 'JSON',
+        description: "where condition(JSON)"
+      }
+    },
+    description: "[Generated] Fetch list of ".concat(typeNames)
   };
 };
 
 var getRowQueryFields = function getRowQueryFields(zeroConf, type, fieldName, model) {
   var hooks = zeroConf.hooks,
       pubSub = zeroConf.pubSub;
-  var TypeName = model.convertedName.TypeName;
+  var _model$convertedName2 = model.convertedName,
+      TypeName = _model$convertedName2.TypeName,
+      typeName = _model$convertedName2.typeName;
   var path = "".concat(type, ".").concat(fieldName);
   var config = {
     path: path,
@@ -78,8 +95,12 @@ var getRowQueryFields = function getRowQueryFields(zeroConf, type, fieldName, mo
   return {
     type: "".concat(TypeName),
     args: {
-      where: "".concat(TypeName, "WhereInput!")
-    }
+      where: {
+        type: "".concat(TypeName, "WhereInput!"),
+        description: "where condition"
+      }
+    },
+    description: "[Generated] Fetch a row of ".concat(typeName)
   };
 };
 
@@ -87,6 +108,7 @@ var getCountQueryFields = function getCountQueryFields(zeroConf, type, TypeNames
   var hooks = zeroConf.hooks,
       pubSub = zeroConf.pubSub;
   var path = "".concat(type, ".num").concat(TypeNames);
+  var typeNames = model.convertedName.typeNames;
   (0, _composer.addResolver)(path, {
     resolve: new _resolvers.CountResolver({
       path: path,
@@ -98,8 +120,12 @@ var getCountQueryFields = function getCountQueryFields(zeroConf, type, TypeNames
   return {
     type: 'Int!',
     args: {
-      where: 'JSON'
-    }
+      where: {
+        type: 'JSON',
+        description: "where condition(JSON)"
+      }
+    },
+    description: "[Generated] Fetch count of ".concat(typeNames)
   };
 };
 
@@ -111,7 +137,10 @@ var getMutationFields = function getMutationFields(zeroConf) {
 
   for (var _i = 0, _Object$values = Object.values(models); _i < _Object$values.length; _i++) {
     var model = _Object$values[_i];
-    var TypeName = model.convertedName.TypeName;
+    var _model$convertedName3 = model.convertedName,
+        TypeName = _model$convertedName3.TypeName,
+        typeNames = _model$convertedName3.typeNames,
+        typeName = _model$convertedName3.typeName;
     (0, _composer.addResolver)("Mutation.create".concat(TypeName), {
       resolve: new _resolvers.CreateResolver({
         path: "Mutation.create".concat(TypeName),
@@ -122,8 +151,12 @@ var getMutationFields = function getMutationFields(zeroConf) {
     });
     fields["create".concat(TypeName)] = {
       type: TypeName,
+      description: "[Generated] Create a(an) ".concat(typeName),
       args: {
-        input: "".concat(TypeName, "CreationInput!")
+        input: {
+          type: "".concat(TypeName, "CreationInput!"),
+          description: "Creation input values"
+        }
       }
     };
     (0, _composer.addResolver)("Mutation.update".concat(TypeName), {
@@ -136,9 +169,16 @@ var getMutationFields = function getMutationFields(zeroConf) {
     });
     fields["update".concat(TypeName)] = {
       type: TypeName,
+      description: "[Generated] Update a(an) ".concat(typeName),
       args: {
-        where: "".concat(TypeName, "WhereInput!"),
-        input: "".concat(TypeName, "UpdateInput!")
+        where: {
+          type: "".concat(TypeName, "WhereInput!"),
+          description: "Update where condition"
+        },
+        input: {
+          type: "".concat(TypeName, "UpdateInput!"),
+          description: "Update input values"
+        }
       }
     };
     (0, _composer.addResolver)("Mutation.delete".concat(TypeName), {
@@ -151,8 +191,12 @@ var getMutationFields = function getMutationFields(zeroConf) {
     });
     fields["delete".concat(TypeName)] = {
       type: 'Int',
+      description: "[Generated] Delete a(an) ".concat(typeName),
       args: {
-        where: "".concat(TypeName, "WhereInput!")
+        where: {
+          type: "".concat(TypeName, "WhereInput!"),
+          description: "Delete where condition"
+        }
       }
     };
   }
@@ -332,10 +376,10 @@ var generateQuery = function generateQuery(zeroConf, type) {
 
   for (var _i3 = 0, _Object$values3 = Object.values(models); _i3 < _Object$values3.length; _i3++) {
     var model = _Object$values3[_i3];
-    var _model$convertedName = model.convertedName,
-        typeName = _model$convertedName.typeName,
-        typeNames = _model$convertedName.typeNames,
-        TypeNames = _model$convertedName.TypeNames;
+    var _model$convertedName4 = model.convertedName,
+        typeName = _model$convertedName4.typeName,
+        typeNames = _model$convertedName4.typeNames,
+        TypeNames = _model$convertedName4.TypeNames;
     fields[typeName] = getRowQueryFields(zeroConf, type, typeName, model);
     fields[typeNames] = getListQueryFields(zeroConf, type, typeNames, model);
     fields["num".concat(TypeNames)] = getCountQueryFields(zeroConf, type, TypeNames, model);
@@ -357,6 +401,7 @@ var generateQueryExtends = function generateQueryExtends(zeroConf) {
           type = _step$value.type,
           field = _step$value.field,
           returnType = _step$value.returnType,
+          description = _step$value.description,
           args = _step$value.args,
           resolver = _step$value.resolver;
       var path = "".concat(type, ".").concat(field);
@@ -425,6 +470,7 @@ var generateQueryExtends = function generateQueryExtends(zeroConf) {
       });
       (0, _composer.addFields)(type, (0, _defineProperty2["default"])({}, field, {
         args: args,
+        description: description,
         type: returnType
       }));
     };

@@ -25,11 +25,7 @@ var getFieldType = function getFieldType(isInput, TypeName, attr) {
   } else if (isReference) {
     type = 'ID';
   } else if (dataType === 'ENUM') {
-    if (isInput) {
-      type = (0, _isEnumType["default"])(attr) ? "".concat(TypeName).concat(FieldName) : 'String';
-    } else {
-      type = 'String';
-    }
+    type = (0, _isEnumType["default"])(attr) ? "".concat(TypeName).concat(FieldName) : 'String';
   } else if (dataType === 'DATE') {
     type = 'Date';
   } else if (dataType.indexOf('BIGINT') > -1) {
