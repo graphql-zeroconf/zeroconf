@@ -100,6 +100,7 @@ function () {
     this.queryExtends = [];
     this.models = {};
     this.graphiql = true;
+    this.config = config;
 
     if (config.context) {
       this.setContext(config.context);

@@ -126,76 +126,92 @@ const getCountQueryFields = (zeroConf, type, TypeNames, model) => {
 
 const getMutationFields = (zeroConf) => {
   const fields = {};
-  const { hooks, pubSub, models } = zeroConf;
+  const { hooks, pubSub, models, config } = zeroConf;
+
+  const ignores = _.get(config, 'ignores.Mutation', []);
 
   for (const model of Object.values(models)) {
     const {
       convertedName: { TypeName, typeNames, typeName },
     } = model;
 
-    addResolver(`Mutation.create${TypeName}`, {
-      resolve: new CreateResolver({
-        path: `Mutation.create${TypeName}`,
-        model,
-        hooks,
-        pubSub,
-      }).resolve,
-    });
+    const createMutationName = `create${TypeName}`;
 
-    fields[`create${TypeName}`] = {
-      type: TypeName,
-      description: `[Generated] Create a(an) ${typeName}`,
-      args: {
-        input: {
-          type: `${TypeName}CreationInput!`,
-          description: "Creation input values",
+    if (ignores.indexOf(createMutationName) < 0) {
+
+      addResolver(`Mutation.${createMutationName}`, {
+        resolve: new CreateResolver({
+          path: `Mutation.${createMutationName}`,
+          model,
+          hooks,
+          pubSub,
+        }).resolve,
+      });
+
+      fields[createMutationName] = {
+        type: TypeName,
+        description: `[Generated] Create a(an) ${typeName}`,
+        args: {
+          input: {
+            type: `${TypeName}CreationInput!`,
+            description: "Creation input values",
+          },
         },
-      },
-    };
+      };
+    }
 
-    addResolver(`Mutation.update${TypeName}`, {
-      resolve: new UpdateResolver({
-        path: `Mutation.update${TypeName}`,
-        model,
-        hooks,
-        pubSub,
-      }).resolve,
-    });
+    const updateMutationName = `update${TypeName}`;
 
-    fields[`update${TypeName}`] = {
-      type: TypeName,
-      description: `[Generated] Update a(an) ${typeName}`,
-      args: {
-        where: {
-          type: `${TypeName}WhereInput!`,
-          description: "Update where condition",
+    if (ignores.indexOf(updateMutationName) < 0) {
+      addResolver(`Mutation.${updateMutationName}`, {
+        resolve: new UpdateResolver({
+          path: `Mutation.${updateMutationName}`,
+          model,
+          hooks,
+          pubSub,
+        }).resolve,
+      });
+
+      fields[updateMutationName] = {
+        type: TypeName,
+        description: `[Generated] Update a(an) ${typeName}`,
+        args: {
+          where: {
+            type: `${TypeName}WhereInput!`,
+            description: "Update where condition",
+          },
+          input: {
+            type: `${TypeName}UpdateInput!`,
+            description: "Update input values",
+          },
         },
-        input: {
-          type: `${TypeName}UpdateInput!`,
-          description: "Update input values",
+      };
+    }
+
+    const deleteMutationName = `delete${TypeName}`;
+
+    if (ignores.indexOf(deleteMutationName) < 0) {
+
+      addResolver(`Mutation.${deleteMutationName}`, {
+        resolve: new DeleteResolver({
+          path: `Mutation.${deleteMutationName}`,
+          model,
+          hooks,
+          pubSub,
+        }).resolve,
+      });
+
+      fields[deleteMutationName] = {
+        type: 'Int',
+        description: `[Generated] Delete a(an) ${typeName}`,
+        args: {
+          where: {
+            type: `${TypeName}WhereInput!`,
+            description: "Delete where condition",
+          }
         },
-      },
-    };
-
-    addResolver(`Mutation.delete${TypeName}`, {
-      resolve: new DeleteResolver({
-        path: `Mutation.delete${TypeName}`,
-        model,
-        hooks,
-        pubSub,
-      }).resolve,
-    });
-
-    fields[`delete${TypeName}`] = {
-      type: 'Int',
-      description: `[Generated] Delete a(an) ${typeName}`,
-      args: {
-        where: {
-          type: `${TypeName}WhereInput!`,
-          description: "Delete where condition",
-        }
-      },
-    };
+      };
+    }
   }
 
   return fields;
@@ -227,7 +243,7 @@ const generateChildren = (zeroConf) => {
 
       const childPath = `${sourceModel.convertedName.TypeName}.${
         targetModel.convertedName.typeName
-      }`;
+        }`;
       addResolver(childPath, {
         resolve: async (parent, args, context, info) => {
           const loader = dataLoader.query(context, childPath, async (ids) => {
@@ -250,7 +266,7 @@ const generateChildren = (zeroConf) => {
 
       const childrenPath = `${sourceModel.convertedName.TypeName}.${
         targetModel.convertedName.typeNames
-      }`;
+        }`;
       addResolver(childrenPath, {
         resolve: async (parent, args, context, info) => {
           const loader = dataLoader.query(context, childrenPath, async (ids) => {
@@ -284,16 +300,23 @@ const generateChildren = (zeroConf) => {
 
 const generateQuery = (zeroConf, type) => {
   const fields = {};
-  const { models } = zeroConf;
+  const { models, config } = zeroConf;
+  const ignores = _.get(config, 'ignores.Query', []);
 
   for (const model of Object.values(models)) {
     const {
       convertedName: { typeName, typeNames, TypeNames },
     } = model;
 
-    fields[typeName] = getRowQueryFields(zeroConf, type, typeName, model);
-    fields[typeNames] = getListQueryFields(zeroConf, type, typeNames, model);
-    fields[`num${TypeNames}`] = getCountQueryFields(zeroConf, type, TypeNames, model);
+    if (ignores.indexOf(typeName) < 0) {
+      fields[typeName] = getRowQueryFields(zeroConf, type, typeName, model);
+    }
+    if (ignores.indexOf(typeNames) < 0) {
+      fields[typeNames] = getListQueryFields(zeroConf, type, typeNames, model);
+    }
+    if (ignores.indexOf(`num${TypeNames}`) < 0) {
+      fields[`num${TypeNames}`] = getCountQueryFields(zeroConf, type, TypeNames, model);
+    }
   }
   addFields(type, fields);
 };

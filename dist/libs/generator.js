@@ -133,7 +133,10 @@ var getMutationFields = function getMutationFields(zeroConf) {
   var fields = {};
   var hooks = zeroConf.hooks,
       pubSub = zeroConf.pubSub,
-      models = zeroConf.models;
+      models = zeroConf.models,
+      config = zeroConf.config;
+
+  var ignores = _lodash["default"].get(config, 'ignores.Mutation', []);
 
   for (var _i = 0, _Object$values = Object.values(models); _i < _Object$values.length; _i++) {
     var model = _Object$values[_i];
@@ -141,64 +144,78 @@ var getMutationFields = function getMutationFields(zeroConf) {
         TypeName = _model$convertedName3.TypeName,
         typeNames = _model$convertedName3.typeNames,
         typeName = _model$convertedName3.typeName;
-    (0, _composer.addResolver)("Mutation.create".concat(TypeName), {
-      resolve: new _resolvers.CreateResolver({
-        path: "Mutation.create".concat(TypeName),
-        model: model,
-        hooks: hooks,
-        pubSub: pubSub
-      }).resolve
-    });
-    fields["create".concat(TypeName)] = {
-      type: TypeName,
-      description: "[Generated] Create a(an) ".concat(typeName),
-      args: {
-        input: {
-          type: "".concat(TypeName, "CreationInput!"),
-          description: "Creation input values"
+    var createMutationName = "create".concat(TypeName);
+
+    if (ignores.indexOf(createMutationName) < 0) {
+      (0, _composer.addResolver)("Mutation.".concat(createMutationName), {
+        resolve: new _resolvers.CreateResolver({
+          path: "Mutation.".concat(createMutationName),
+          model: model,
+          hooks: hooks,
+          pubSub: pubSub
+        }).resolve
+      });
+      fields[createMutationName] = {
+        type: TypeName,
+        description: "[Generated] Create a(an) ".concat(typeName),
+        args: {
+          input: {
+            type: "".concat(TypeName, "CreationInput!"),
+            description: "Creation input values"
+          }
         }
-      }
-    };
-    (0, _composer.addResolver)("Mutation.update".concat(TypeName), {
-      resolve: new _resolvers.UpdateResolver({
-        path: "Mutation.update".concat(TypeName),
-        model: model,
-        hooks: hooks,
-        pubSub: pubSub
-      }).resolve
-    });
-    fields["update".concat(TypeName)] = {
-      type: TypeName,
-      description: "[Generated] Update a(an) ".concat(typeName),
-      args: {
-        where: {
-          type: "".concat(TypeName, "WhereInput!"),
-          description: "Update where condition"
-        },
-        input: {
-          type: "".concat(TypeName, "UpdateInput!"),
-          description: "Update input values"
+      };
+    }
+
+    var updateMutationName = "update".concat(TypeName);
+
+    if (ignores.indexOf(updateMutationName) < 0) {
+      (0, _composer.addResolver)("Mutation.".concat(updateMutationName), {
+        resolve: new _resolvers.UpdateResolver({
+          path: "Mutation.".concat(updateMutationName),
+          model: model,
+          hooks: hooks,
+          pubSub: pubSub
+        }).resolve
+      });
+      fields[updateMutationName] = {
+        type: TypeName,
+        description: "[Generated] Update a(an) ".concat(typeName),
+        args: {
+          where: {
+            type: "".concat(TypeName, "WhereInput!"),
+            description: "Update where condition"
+          },
+          input: {
+            type: "".concat(TypeName, "UpdateInput!"),
+            description: "Update input values"
+          }
         }
-      }
-    };
-    (0, _composer.addResolver)("Mutation.delete".concat(TypeName), {
-      resolve: new _resolvers.DeleteResolver({
-        path: "Mutation.delete".concat(TypeName),
-        model: model,
-        hooks: hooks,
-        pubSub: pubSub
-      }).resolve
-    });
-    fields["delete".concat(TypeName)] = {
-      type: 'Int',
-      description: "[Generated] Delete a(an) ".concat(typeName),
-      args: {
-        where: {
-          type: "".concat(TypeName, "WhereInput!"),
-          description: "Delete where condition"
+      };
+    }
+
+    var deleteMutationName = "delete".concat(TypeName);
+
+    if (ignores.indexOf(deleteMutationName) < 0) {
+      (0, _composer.addResolver)("Mutation.".concat(deleteMutationName), {
+        resolve: new _resolvers.DeleteResolver({
+          path: "Mutation.".concat(deleteMutationName),
+          model: model,
+          hooks: hooks,
+          pubSub: pubSub
+        }).resolve
+      });
+      fields[deleteMutationName] = {
+        type: 'Int',
+        description: "[Generated] Delete a(an) ".concat(typeName),
+        args: {
+          where: {
+            type: "".concat(TypeName, "WhereInput!"),
+            description: "Delete where condition"
+          }
         }
-      }
-    };
+      };
+    }
   }
 
   return fields;
@@ -372,7 +389,10 @@ var generateChildren = function generateChildren(zeroConf) {
 
 var generateQuery = function generateQuery(zeroConf, type) {
   var fields = {};
-  var models = zeroConf.models;
+  var models = zeroConf.models,
+      config = zeroConf.config;
+
+  var ignores = _lodash["default"].get(config, 'ignores.Query', []);
 
   for (var _i3 = 0, _Object$values3 = Object.values(models); _i3 < _Object$values3.length; _i3++) {
     var model = _Object$values3[_i3];
@@ -380,9 +400,18 @@ var generateQuery = function generateQuery(zeroConf, type) {
         typeName = _model$convertedName4.typeName,
         typeNames = _model$convertedName4.typeNames,
         TypeNames = _model$convertedName4.TypeNames;
-    fields[typeName] = getRowQueryFields(zeroConf, type, typeName, model);
-    fields[typeNames] = getListQueryFields(zeroConf, type, typeNames, model);
-    fields["num".concat(TypeNames)] = getCountQueryFields(zeroConf, type, TypeNames, model);
+
+    if (ignores.indexOf(typeName) < 0) {
+      fields[typeName] = getRowQueryFields(zeroConf, type, typeName, model);
+    }
+
+    if (ignores.indexOf(typeNames) < 0) {
+      fields[typeNames] = getListQueryFields(zeroConf, type, typeNames, model);
+    }
+
+    if (ignores.indexOf("num".concat(TypeNames)) < 0) {
+      fields["num".concat(TypeNames)] = getCountQueryFields(zeroConf, type, TypeNames, model);
+    }
   }
 
   (0, _composer.addFields)(type, fields);
