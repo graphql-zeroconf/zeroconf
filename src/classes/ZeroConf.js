@@ -132,7 +132,7 @@ class ZeroConf {
     });
   }
 
-  async generateModel() {
+  generateModel() {
     const { database, user, password, option, dialectOptions } = this.sequelizeConfig;
     this.sequelize = new Sequelize(database, user, password, {
       operatorsAliases,
@@ -150,14 +150,14 @@ class ZeroConf {
     this.context = args => func.apply(this, [args, this.models, this.acl]);
   }
 
-  async initHooks() {
+  initHooks() {
     if (_.isEmpty(this.hooksPath) === true) {
       return;
     }
 
     let hookDefs = null;
     if (typeof this.hooksPath === "string") {
-      hookDefs = await loader(this.hooksPath);
+      hookDefs = loader(this.hooksPath);
     } else {
       hookDefs = this.hooksPath;
     }
@@ -167,14 +167,14 @@ class ZeroConf {
     }
   }
 
-  async initExtends() {
+  initExtends() {
     if (_.isEmpty(this.extendsPath) === true) {
       return;
     }
 
     let queryExtends = null;
     if (typeof this.extendsPath === "string") {
-      queryExtends = await loader(this.extendsPath);
+      queryExtends = loader(this.extendsPath);
     } else {
       queryExtends = this.extendsPath;
     }
@@ -182,14 +182,14 @@ class ZeroConf {
     this.queryExtends = [...this.queryExtends, ...queryExtends];
   }
 
-  async initTypes() {
+  initTypes() {
     if (_.isEmpty(this.typesPath) === true) {
       return;
     }
 
     let types = null;
     if (typeof this.typesPath === "string") {
-      types = await loader(this.typesPath);
+      types = loader(this.typesPath);
     } else {
       types = this.typesPath;
     }
@@ -199,7 +199,7 @@ class ZeroConf {
     });
   }
 
-  async use(module) {
+  use(module) {
     if (module.hooks) {
       module.hooks.map(type => {
         for (const { type, name, when, hook } of module.hooks) {
@@ -219,13 +219,13 @@ class ZeroConf {
     }
   }
 
-  async configuration() {
+  configuration() {
     if (_.isEmpty(this.sequelizeConfig) === true) {
       throw new Error("node sequelize configutration needed");
     }
 
-    await this.generateModel();
-    await this.initHooks();
+    this.generateModel();
+    this.initHooks();
 
     this.composeGraphQLObject();
 
@@ -234,8 +234,8 @@ class ZeroConf {
     generator(this, "Mutation");
     generator(this, "Children");
 
-    await this.initTypes();
-    await this.initExtends();
+    this.initTypes();
+    this.initExtends();
 
     generator(this, "QueryExtends");
 
@@ -244,4 +244,4 @@ class ZeroConf {
   }
 }
 
-module.exports = ZeroConf;
+export default ZeroConf;
